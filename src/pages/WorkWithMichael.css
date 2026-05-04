@@ -174,3 +174,11 @@
     bottom: -1rem;
   }
 }
+
+@media (max-width: 640px) {
+  .wwm-cta { padding: 5rem 0; }
+  .wwm-cta__actions { flex-direction: column; align-items: center; }
+  .wwm-cta__actions .btn { width: 100%; justify-content: center; }
+  .wwm-format-tags { gap: 0.4rem; }
+  .wwm-tag { font-size: 0.65rem; padding: 0.3rem 0.75rem; }
+}

@@ -123,3 +123,7 @@
     order: unset;
   }
 }
+
+@media (max-width: 640px) {
+  .services-cta { padding: 5rem 0; }
+}

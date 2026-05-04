@@ -274,4 +274,22 @@
   .philosophy-row__num {
     font-size: 1.8rem;
   }
+
+  .about-cta { padding: 5rem 0; }
+  .about-cta__actions { flex-direction: column; align-items: center; }
+  .about-cta__actions .btn { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 400px) {
+  .timeline-item {
+    grid-template-columns: 60px 24px 1fr;
+    gap: 0 0.75rem;
+  }
+
+  .philosophy-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem 0;
+  }
+
+  .philosophy-row__divider { display: none; }
 }

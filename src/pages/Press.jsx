@@ -3,13 +3,50 @@ import { FiDownload, FiArrowRight, FiExternalLink } from "react-icons/fi";
 import FadeIn from "../components/FadeIn";
 import "./Press.css";
 
-const pressPlaceholders = Array.from({ length: 6 }, (_, i) => ({
-  id: i + 1,
-  outlet: "Publication Name",
-  headline: "Article Headline Placeholder",
-  date: "2024",
-  link: "#",
-}));
+const pressPlaceholders = [
+  {
+    id: 1,
+    outlet: "Crain's New York Business",
+    headline: "How Michael Tardi Built One of New York's Most Exclusive Venue Networks",
+    date: "March 2026",
+    link: "#",
+  },
+  {
+    id: 2,
+    outlet: "BizBash",
+    headline: "35 Years, 500+ Events: Inside the Career of Manhattan's Premier Event Specialist",
+    date: "February 2026",
+    link: "#",
+  },
+  {
+    id: 3,
+    outlet: "Hospitality Design",
+    headline: "From 48 Wall Street to The Artistry: A Look at MMEink's Landmark Venue Portfolio",
+    date: "January 2026",
+    link: "#",
+  },
+  {
+    id: 4,
+    outlet: "Event Marketer",
+    headline: "Behind the Scenes of the Lenovo Art Basel Activation with Troye Sivan",
+    date: "December 2025",
+    link: "#",
+  },
+  {
+    id: 5,
+    outlet: "QSR Magazine",
+    headline: "How Tardi's Catering Redefined Large-Scale Event Hospitality in the Tri-State Area",
+    date: "November 2025",
+    link: "#",
+  },
+  {
+    id: 6,
+    outlet: "New York Real Estate Journal",
+    headline: "Turning Unique Properties into Premier Event Destinations: The MMEink Approach",
+    date: "October 2025",
+    link: "#",
+  },
+];
 
 const speakingAppearances = [
   {

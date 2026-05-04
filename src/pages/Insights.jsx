@@ -3,22 +3,56 @@ import { FiArrowRight } from "react-icons/fi";
 import FadeIn from "../components/FadeIn";
 import "./Insights.css";
 
-const placeholderPosts = Array.from({ length: 6 }, (_, i) => ({
-  id: i + 1,
-  category: [
-    "Event Production",
-    "Venue Operations",
-    "Hospitality Strategy",
-    "Real Estate",
-    "Leadership",
-    "F&B",
-  ][i],
-  title: "Insights Article Title Coming Soon",
-  excerpt:
-    "This article will share practical insights and lessons learned from 35+ years of experience in hospitality, events, venue operations, and real estate strategy.",
-  date: "Coming Soon",
-  readTime: "5 min read",
-}));
+const placeholderPosts = [
+  {
+    id: 1,
+    category: "Event Production",
+    title: "The 10 Things That Separate a Good Event from an Unforgettable One",
+    excerpt: "After producing 500+ events across Manhattan and beyond, the difference always comes down to the same fundamentals — and most people overlook half of them.",
+    date: "Coming Soon",
+    readTime: "6 min read",
+  },
+  {
+    id: 2,
+    category: "Venue Operations",
+    title: "Why Most Venues Struggle to Scale — And What to Do About It",
+    excerpt: "Revenue stalls, staff turnover spikes, and client experience suffers. Here's the operational framework that fixes all three at the same time.",
+    date: "Coming Soon",
+    readTime: "7 min read",
+  },
+  {
+    id: 3,
+    category: "Hospitality Strategy",
+    title: "Guest Experience Is Your Best Marketing Strategy",
+    excerpt: "Before you spend another dollar on ads, fix how your guests feel when they walk through the door. That one change drives more referrals than any campaign.",
+    date: "Coming Soon",
+    readTime: "5 min read",
+  },
+  {
+    id: 4,
+    category: "Real Estate",
+    title: "How to Identify a Property With Event Potential Before Anyone Else Does",
+    excerpt: "The venues that become landmark spaces are rarely obvious at first glance. Here's what to look for — and the questions to ask before you commit.",
+    date: "Coming Soon",
+    readTime: "8 min read",
+  },
+  {
+    id: 5,
+    category: "Leadership",
+    title: "What 35 Years in Hospitality Taught Me About Building Great Teams",
+    excerpt: "The events industry is people-first. The leaders who understand that build businesses that last. The ones who don't, burn through talent and wonder why.",
+    date: "Coming Soon",
+    readTime: "6 min read",
+  },
+  {
+    id: 6,
+    category: "F&B",
+    title: "Designing a Food and Beverage Program That Actually Drives Revenue",
+    excerpt: "Most F&B programs are an afterthought. Done right, they become a competitive advantage — one that keeps guests coming back and sets your venue apart.",
+    date: "Coming Soon",
+    readTime: "5 min read",
+  },
+];
 
 export default function Insights() {
   return (
