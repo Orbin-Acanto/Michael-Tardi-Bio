@@ -1,0 +1,217 @@
+/* ─── VENUES ─────────────────────────────────────────── */
+.venues-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.venue-card {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--transition-base);
+}
+
+.venue-card:hover {
+  transform: translateY(-4px);
+}
+
+.venue-card__img {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  position: relative;
+}
+
+.venue-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.venue-card:hover .venue-card__img img {
+  transform: scale(1.05);
+}
+
+.venue-card__hover {
+  position: absolute;
+  inset: 0;
+  background: rgba(210,179,113,0.12);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.venue-card:hover .venue-card__hover {
+  opacity: 1;
+}
+
+.venue-card__body {
+  padding: 1.25rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.venue-card__location {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+.venue-card__name {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  color: var(--color-text);
+}
+
+.venue-card__highlight {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.venue-card__cta {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-gold);
+  margin-top: 0.5rem;
+  transition: letter-spacing var(--transition-base);
+}
+
+.venue-card:hover .venue-card__cta {
+  letter-spacing: 0.15em;
+}
+
+/* ─── FILTER ─────────────────────────────────────────── */
+.portfolio-filter {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.portfolio-filter__btn {
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.55rem 1.25rem;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-light);
+  transition: all var(--transition-fast);
+}
+
+.portfolio-filter__btn:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+.portfolio-filter__btn--active {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+  color: #fff;
+}
+
+/* ─── EVENTS GRID ─────────────────────────────────────── */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.event-card {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-card__img {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  position: relative;
+}
+
+.event-card__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.event-card:hover .event-card__img img {
+  transform: scale(1.05);
+}
+
+.event-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.event-card:hover .event-card__overlay {
+  opacity: 1;
+}
+
+.event-card__learn {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  border: 1px solid var(--color-gold);
+  padding: 0.6rem 1.25rem;
+}
+
+.event-card__body {
+  padding: 1.25rem 0 0;
+}
+
+.event-card__category {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.event-card__name {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
+
+.event-card__role {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .venues-grid { grid-template-columns: repeat(2, 1fr); }
+  .events-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .venues-grid { grid-template-columns: 1fr; }
+  .events-grid { grid-template-columns: 1fr; }
+}

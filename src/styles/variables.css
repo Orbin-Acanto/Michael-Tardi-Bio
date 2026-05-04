@@ -1,0 +1,35 @@
+:root {
+  /* Colors */
+  --color-bg: #ffffff;
+  --color-bg-alt: #f8f7f5;
+  --color-bg-dark: #111111;
+  --color-text: #1a1a1a;
+  --color-text-light: #555555;
+  --color-text-muted: #888888;
+  --color-gold: #d2b371;
+  --color-gold-light: #e8d4a0;
+  --color-gold-dark: #b8963e;
+  --color-border: #e5e5e5;
+  --color-border-dark: #2a2a2a;
+
+  /* Typography */
+  --font-heading: 'Gilda Display', serif;
+  --font-body: 'Montserrat', sans-serif;
+
+  /* Spacing */
+  --section-padding: 6rem 0;
+  --section-padding-sm: 4rem 0;
+  --container-max: 1280px;
+  --container-pad: 1.5rem;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.35s ease;
+  --transition-slow: 0.6s ease;
+
+  /* Z-index */
+  --z-cursor: 9999;
+  --z-nav: 1000;
+  --z-modal: 900;
+  --z-overlay: 800;
+}

@@ -1,0 +1,199 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  backdrop-filter: blur(4px);
+}
+
+.modal-box {
+  background: #fff;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  border-top: 3px solid var(--color-gold);
+}
+
+.modal-box::-webkit-scrollbar { width: 4px; }
+.modal-box::-webkit-scrollbar-thumb { background: var(--color-gold); }
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  color: var(--color-text-light);
+  z-index: 10;
+  padding: 0.25rem;
+  transition: color var(--transition-fast);
+  display: flex;
+  align-items: center;
+}
+
+.modal-close:hover {
+  color: var(--color-gold);
+}
+
+/* ─── Venue Modal Layout ────────────────────────────── */
+.modal-content {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+}
+
+/* Gallery */
+.modal-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: #111;
+}
+
+.modal-gallery__main {
+  aspect-ratio: 3/2;
+  overflow: hidden;
+}
+
+.modal-gallery__main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-gallery__thumbs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+}
+
+.modal-gallery__thumbs .img-wrap {
+  aspect-ratio: 1;
+  overflow: hidden;
+}
+
+.modal-gallery__thumbs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Info */
+.modal-info {
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.modal-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  color: var(--color-text);
+  margin-bottom: 1rem;
+}
+
+.modal-description {
+  font-size: 0.88rem;
+  color: var(--color-text-light);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.modal-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+  padding: 1.25rem;
+  background: var(--color-bg-alt);
+  border-left: 2px solid var(--color-gold);
+}
+
+.modal-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.modal-stat__label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.modal-stat__value {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-align: right;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* ─── Portfolio Modal ───────────────────────────────── */
+.modal-content--portfolio {
+  grid-template-columns: 1fr 1fr;
+}
+
+.modal-portfolio-img {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+
+.modal-portfolio-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.modal-type-tag {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  padding: 0.2rem 0.6rem;
+}
+
+/* ─── Responsive ────────────────────────────────────── */
+@media (max-width: 700px) {
+  .modal-content,
+  .modal-content--portfolio {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-gallery__main {
+    aspect-ratio: 16/9;
+  }
+
+  .modal-info {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .modal-portfolio-img {
+    aspect-ratio: 16/9;
+  }
+}

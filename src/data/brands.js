@@ -1,0 +1,42 @@
+export const brands = [
+  {
+    id: 1,
+    name: 'MMEink',
+    tagline: 'Full-Service Event Production',
+    description: 'The flagship production company behind Michael\'s event empire. MMEink coordinates every facet of large-scale event production — from creative concept to on-site execution — for corporate, entertainment, and private clients.',
+    logo: { src: 'https://placehold.co/300x150', ratio: '2:1 (300×150)' },
+    website: 'https://www.mmeink.com/',
+  },
+  {
+    id: 2,
+    name: 'Mikey Mike Entertainment',
+    tagline: 'Where It All Started',
+    description: 'The original entertainment startup Michael launched at age 13. What began as a musical entertainment company grew into a full-service business that laid the foundation for everything that followed.',
+    logo: { src: 'https://placehold.co/300x150', ratio: '2:1 (300×150)' },
+    website: 'https://www.mmeink.com/',
+  },
+  {
+    id: 3,
+    name: 'All That & More',
+    tagline: 'Elevated Experiential Events',
+    description: 'A boutique event experience brand focused on delivering premium, personalized event concepts that go beyond expectation — crafting moments that feel custom-built for every client.',
+    logo: { src: 'https://placehold.co/300x150', ratio: '2:1 (300×150)' },
+    website: 'https://www.mmeink.com/',
+  },
+  {
+    id: 4,
+    name: 'Boozypops',
+    tagline: 'Artisan Cocktail Popsicles',
+    description: 'A fun, inventive food & beverage concept bringing handcrafted cocktail popsicles to events, activations, and hospitality experiences. A crowd-pleasing brand born from creative F&B thinking.',
+    logo: { src: 'https://placehold.co/300x150', ratio: '2:1 (300×150)' },
+    website: 'https://www.mmeink.com/',
+  },
+  {
+    id: 5,
+    name: 'Classic Carts',
+    tagline: 'Mobile Hospitality Solutions',
+    description: 'A mobile food and beverage cart concept designed to add charm, style, and function to any event or venue. Classic Carts delivers hospitality experiences that are both elegant and effortlessly executed.',
+    logo: { src: 'https://placehold.co/300x150', ratio: '2:1 (300×150)' },
+    website: 'https://www.mmeink.com/',
+  },
+];
