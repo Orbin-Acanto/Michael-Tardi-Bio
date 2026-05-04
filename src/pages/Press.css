@@ -147,52 +147,63 @@
 }
 
 /* Media Kit */
+.press-kit {
+  background: var(--color-bg-alt);
+}
+
 .press-kit__desc {
   font-size: 0.95rem;
-  color: rgba(255,255,255,0.6);
+  color: var(--color-text-light);
   max-width: 600px;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem;
   line-height: 1.8;
-  font-weight: 300;
 }
 
-.press-kit__items {
+.press-kit__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.press-kit__card {
   display: flex;
   flex-direction: column;
-  gap: 0;
-  max-width: 600px;
-}
-
-.press-kit__item {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 1.25rem 0;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  text-align: center;
+  gap: 1rem;
+  padding: 2rem 1.25rem;
+  background: #fff;
+  border-top: 3px solid var(--color-gold);
+  transition: box-shadow 0.2s;
 }
 
-.press-kit__item-name {
-  font-size: 0.9rem;
-  color: rgba(255,255,255,0.75);
+.press-kit__card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.press-kit__card-icon {
+  font-size: 1.5rem;
+  color: var(--color-gold);
+}
+
+.press-kit__card-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: 0.03em;
+  flex: 1;
 }
 
 .press-kit__download {
   font-size: 0.65rem;
-  padding: 0.5rem 1rem;
-  border-color: rgba(255,255,255,0.2);
-  color: rgba(255,255,255,0.6);
-}
-
-.press-kit__download:hover {
-  border-color: var(--color-gold);
-  color: var(--color-gold);
-  background: transparent;
+  padding: 0.5rem 1.25rem;
+  width: 100%;
 }
 
 .press-kit__note {
-  margin-top: 2rem;
   font-size: 0.82rem;
-  color: rgba(255,255,255,0.35);
+  color: var(--color-text-muted);
 }
 
 .press-kit__note a {
@@ -203,10 +214,12 @@
 
 @media (max-width: 900px) {
   .press-grid { grid-template-columns: repeat(2, 1fr); }
+  .press-kit__grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 600px) {
   .press-grid { grid-template-columns: 1fr; }
+  .press-kit__grid { grid-template-columns: repeat(2, 1fr); }
   .speaking-item { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
   .speaking-item__date { min-width: unset; }
 }

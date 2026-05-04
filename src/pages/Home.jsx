@@ -1,19 +1,28 @@
-import { useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { FiArrowRight, FiAward, FiMapPin, FiUsers, FiTrendingUp } from 'react-icons/fi';
-import FadeIn from '../components/FadeIn';
-import { portfolioItems } from '../data/portfolio';
-import { testimonials } from '../data/testimonials';
-import './Home.css';
+import { useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  FiArrowRight,
+  FiAward,
+  FiMapPin,
+  FiUsers,
+  FiTrendingUp,
+} from "react-icons/fi";
+import FadeIn from "../components/FadeIn";
+import { portfolioItems } from "../data/portfolio";
+import { testimonials } from "../data/testimonials";
+import "./Home.css";
 
 /* ─── Hero ─────────────────────────────────────────────────── */
 function Hero() {
   const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const textY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
 
   return (
     <section ref={ref} className="hero">
@@ -33,13 +42,21 @@ function Hero() {
         <div className="hero__overlay" />
         {/* Fallback when no video */}
         <div className="hero__fallback img-wrap">
-          <img src="https://placehold.co/1920x1080/111111/444444" alt="Hero background" />
-          <span className="placeholder-label">16:9 (1920×1080) — Hero Background Video/Photo</span>
+          <img
+            src="https://placehold.co/1920x1080/111111/444444"
+            alt="Hero background"
+          />
+          <span className="placeholder-label">
+            16:9 (1920×1080) — Hero Background Video/Photo
+          </span>
         </div>
       </motion.div>
 
       {/* Content */}
-      <motion.div className="hero__content container" style={{ y: textY, opacity }}>
+      <motion.div
+        className="hero__content container"
+        style={{ y: textY, opacity }}
+      >
         <motion.span
           className="hero__label"
           initial={{ opacity: 0, y: 20 }}
@@ -55,7 +72,8 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
         >
-          Michael<br />
+          Michael
+          <br />
           <em>Tardi</em>
         </motion.h1>
 
@@ -65,7 +83,8 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.7 }}
         >
-          Hospitality. Events. Venues. Real Estate.<br />
+          Hospitality. Events. Venues. Real Estate.
+          <br />
           Built Through 35+ Years of Experience.
         </motion.p>
 
@@ -92,9 +111,6 @@ function Hero() {
           <Link to="/portfolio" className="btn btn--outline-white">
             Explore Experience
           </Link>
-          <Link to="/contact?type=partnership" className="btn btn--outline-white">
-            Submit Partnership Opportunity
-          </Link>
         </motion.div>
       </motion.div>
 
@@ -114,10 +130,10 @@ function Hero() {
 
 /* ─── Credibility Snapshot ─────────────────────────────────── */
 const credibilityPoints = [
-  { icon: <FiAward />, number: '35+', label: 'Years in Hospitality & Events' },
-  { icon: <FiMapPin />, number: '8+', label: 'Exclusive Venue Partners' },
-  { icon: <FiUsers />, number: '500+', label: 'Events Produced' },
-  { icon: <FiTrendingUp />, number: '∞', label: 'Opportunities to Explore' },
+  { icon: <FiAward />, number: "35+", label: "Years in Hospitality & Events" },
+  { icon: <FiMapPin />, number: "8+", label: "Exclusive Venue Partners" },
+  { icon: <FiUsers />, number: "500+", label: "Events Produced" },
+  { icon: <FiTrendingUp />, number: "∞", label: "Opportunities to Explore" },
 ];
 
 function Credibility() {
@@ -149,16 +165,22 @@ function AboutPreview() {
           <FadeIn direction="right">
             <div className="about-preview__img-col">
               <div className="about-preview__img-main img-wrap">
-                <img src="https://placehold.co/600x750/e8e4dc/aaa" alt="Michael Tardi" />
-                <span className="placeholder-label">4:5 (600×750) — Professional Headshot</span>
+                <img
+                  src="https://placehold.co/600x750/e8e4dc/aaa"
+                  alt="Michael Tardi"
+                />
               </div>
               <div className="about-preview__img-accent img-wrap">
-                <img src="https://placehold.co/300x300/d2b371/fff" alt="Event production" />
-                <span className="placeholder-label">1:1 (300×300) — Event/Venue Photo</span>
+                <img
+                  src="https://placehold.co/300x300/d2b371/fff"
+                  alt="Event production"
+                />
               </div>
               <div className="about-preview__years">
                 <span className="about-preview__years-num">35+</span>
-                <span className="about-preview__years-text">Years of Excellence</span>
+                <span className="about-preview__years-text">
+                  Years of Excellence
+                </span>
               </div>
             </div>
           </FadeIn>
@@ -168,30 +190,44 @@ function AboutPreview() {
               <span className="section-label">About Michael</span>
             </FadeIn>
             <FadeIn delay={0.2}>
-              <h2 className="section-title">Hospitality Meets a Creative Mind</h2>
+              <h2 className="section-title">
+                Hospitality Meets a Creative Mind
+              </h2>
             </FadeIn>
             <FadeIn delay={0.3}>
               <div className="gold-divider" />
             </FadeIn>
             <FadeIn delay={0.35}>
               <p className="about-preview__body">
-                Michael Tardi is a hospitality and event industry executive with more than three
-                decades of experience building, operating, and scaling event-driven businesses,
-                unique venues, food and beverage concepts, and entertainment experiences.
+                Michael Tardi is a hospitality and event industry executive with
+                more than three decades of experience building, operating, and
+                scaling event-driven businesses, unique venues, food and
+                beverage concepts, and entertainment experiences.
               </p>
             </FadeIn>
             <FadeIn delay={0.4}>
               <p className="about-preview__body">
-                Starting at age 13 with a music entertainment startup, Michael built MMEink from
-                a bedroom operation into a full-service event production company serving Manhattan,
-                Long Island, and South Florida. His work connects venue operations, event
-                production, hospitality strategy, real estate opportunities, and brand partnerships.
+                Starting at age 13 with a music entertainment startup, Michael
+                built MMEink from a bedroom operation into a full-service event
+                production company serving Manhattan, Long Island, and South
+                Florida. His work connects venue operations, event production,
+                hospitality strategy, real estate opportunities, and brand
+                partnerships.
               </p>
             </FadeIn>
             <FadeIn delay={0.45}>
               <div className="about-preview__pills">
-                {['Venue Operations', 'Event Production', 'Real Estate Strategy', 'Brand Partnerships', 'F&B Concepts', 'Private Investment'].map(p => (
-                  <span key={p} className="about-preview__pill">{p}</span>
+                {[
+                  "Venue Operations",
+                  "Event Production",
+                  "Real Estate Strategy",
+                  "Brand Partnerships",
+                  "F&B Concepts",
+                  "Private Investment",
+                ].map((p) => (
+                  <span key={p} className="about-preview__pill">
+                    {p}
+                  </span>
                 ))}
               </div>
             </FadeIn>
@@ -210,28 +246,28 @@ function AboutPreview() {
 /* ─── Core Expertise ───────────────────────────────────────── */
 const expertiseCards = [
   {
-    number: '01',
-    title: 'Event Production',
-    desc: 'High-level event strategy, production planning, setup, strike, staffing, vendor coordination, and flawless execution for every scale of event.',
-    link: '/services',
+    number: "01",
+    title: "Event Production",
+    desc: "Full-scale event strategy, production planning, staffing, vendor coordination, and flawless on-site execution for every type and size of event.",
+    link: "/services",
   },
   {
-    number: '02',
-    title: 'Venue Operations',
-    desc: 'Training teams, building systems, improving client experience, and increasing venue profitability through proven operational frameworks.',
-    link: '/services',
+    number: "02",
+    title: "Venue Operations",
+    desc: "Building the systems, teams, and client experiences that drive venue profitability and long-term success in a competitive hospitality market.",
+    link: "/services",
   },
   {
-    number: '03',
-    title: 'Hospitality & Food Concepts',
-    desc: 'Food and beverage programming, concession concepts, hospitality partnerships, and guest experience strategy that drives revenue and loyalty.',
-    link: '/services',
+    number: "03",
+    title: "Hospitality & Food Concepts",
+    desc: "Food and beverage programming, concession concepts, hospitality partnerships, and guest experience strategy that drives revenue and loyalty.",
+    link: "/services",
   },
   {
-    number: '04',
-    title: 'Real Estate & Venue Development',
-    desc: 'Identifying, operating, and positioning unique properties for events, hospitality, and entertainment use — from concept to full operation.',
-    link: '/services',
+    number: "04",
+    title: "Real Estate & Venue Development",
+    desc: "Identifying and positioning unique properties for events and hospitality use, from initial concept through full operational launch and beyond.",
+    link: "/services",
   },
 ];
 
@@ -243,7 +279,9 @@ function Expertise() {
           <span className="section-label">Core Expertise</span>
         </FadeIn>
         <FadeIn delay={0.1}>
-          <h2 className="section-title">What Michael Brings to Every Partnership</h2>
+          <h2 className="section-title">
+            What Michael Brings to Every Partnership
+          </h2>
         </FadeIn>
         <FadeIn delay={0.2}>
           <div className="gold-divider" />
@@ -256,7 +294,9 @@ function Expertise() {
                 <span className="expertise-card__num">{card.number}</span>
                 <h3 className="expertise-card__title">{card.title}</h3>
                 <p className="expertise-card__desc">{card.desc}</p>
-                <span className="expertise-card__arrow"><FiArrowRight /></span>
+                <span className="expertise-card__arrow">
+                  <FiArrowRight />
+                </span>
               </Link>
             </FadeIn>
           ))}
@@ -298,9 +338,10 @@ function PortfolioPreview() {
               <Link to="/portfolio" className="portfolio-card">
                 <div className="portfolio-card__img img-wrap">
                   <img src={item.image.src} alt={item.name} />
-                  <span className="placeholder-label">{item.image.ratio}</span>
                   <div className="portfolio-card__overlay">
-                    <span className="portfolio-card__category">{item.category}</span>
+                    <span className="portfolio-card__category">
+                      {item.category}
+                    </span>
                     <h3 className="portfolio-card__name">{item.name}</h3>
                     <p className="portfolio-card__role">{item.role}</p>
                   </div>
@@ -317,22 +358,22 @@ function PortfolioPreview() {
 /* ─── Work With Michael ────────────────────────────────────── */
 const workOptions = [
   {
-    title: 'Consulting & Training',
-    desc: 'For venues, hospitality groups, event companies, and corporate teams looking to improve operations and deliver stronger guest experiences.',
-    cta: 'Book a Consultation',
-    type: 'consulting',
+    title: "Consulting & Training",
+    desc: "For venues, hospitality groups, event companies, and corporate teams looking to improve operations and deliver stronger guest experiences.",
+    cta: "Book a Consultation",
+    type: "consulting",
   },
   {
-    title: 'Speaking & Mentorship',
-    desc: 'For events, panels, leadership sessions, and young entrepreneurs seeking practical insights from 35+ years of real-world industry leadership.',
-    cta: 'Request Speaking Engagement',
-    type: 'speaking',
+    title: "Speaking & Mentorship",
+    desc: "For events, panels, leadership sessions, and young entrepreneurs seeking practical insights from 35+ years of real-world industry leadership.",
+    cta: "Request Speaking Engagement",
+    type: "speaking",
   },
   {
-    title: 'Investment & Strategic Partnerships',
-    desc: 'For brands, real estate opportunities, hospitality concepts, and event businesses seeking an experienced private investor and strategic partner.',
-    cta: 'Submit Investment Opportunity',
-    type: 'investment',
+    title: "Investment & Strategic Partnerships",
+    desc: "For brands, real estate opportunities, hospitality concepts, and event businesses seeking an experienced private investor and strategic partner.",
+    cta: "Submit Investment Opportunity",
+    type: "investment",
   },
 ];
 
@@ -344,7 +385,9 @@ function WorkWith() {
           <span className="section-label">Work With Michael</span>
         </FadeIn>
         <FadeIn delay={0.1}>
-          <h2 className="section-title" style={{ color: '#fff' }}>Three Ways to Partner</h2>
+          <h2 className="section-title" style={{ color: "#fff" }}>
+            Three Ways to Partner
+          </h2>
         </FadeIn>
         <FadeIn delay={0.2}>
           <div className="gold-divider" />
@@ -360,7 +403,7 @@ function WorkWith() {
                 <Link
                   to={`/contact?type=${opt.type}`}
                   className="btn btn--outline"
-                  style={{ marginTop: 'auto' }}
+                  style={{ marginTop: "auto" }}
                 >
                   {opt.cta} <FiArrowRight />
                 </Link>
@@ -387,10 +430,17 @@ function Testimonials() {
     <section className="testimonials section section--alt">
       <div className="container">
         <FadeIn>
-          <span className="section-label section-label--center" style={{ textAlign: 'center', display: 'block' }}>Reputation</span>
+          <span
+            className="section-label section-label--center"
+            style={{ textAlign: "center", display: "block" }}
+          >
+            Reputation
+          </span>
         </FadeIn>
         <FadeIn delay={0.1}>
-          <h2 className="section-title section-title--center">What Partners Say</h2>
+          <h2 className="section-title section-title--center">
+            What Partners Say
+          </h2>
         </FadeIn>
         <FadeIn delay={0.2}>
           <div className="gold-divider gold-divider--center" />
@@ -404,7 +454,9 @@ function Testimonials() {
                 <p className="testimonial-card__quote">{t.quote}</p>
                 <div className="testimonial-card__author">
                   <span className="testimonial-card__name">{t.name}</span>
-                  <span className="testimonial-card__role">{t.role} — {t.company}</span>
+                  <span className="testimonial-card__role">
+                    {t.role}, {t.company}
+                  </span>
                 </div>
               </div>
             </FadeIn>
@@ -420,22 +472,32 @@ function FinalCta() {
   return (
     <section className="final-cta">
       <div className="final-cta__bg img-wrap">
-        <img src="https://placehold.co/1920x700/111111/333333" alt="CTA background" />
-        <span className="placeholder-label">16:9 landscape (1920×700) — Venue/Event Atmosphere Photo</span>
+        <img
+          src="https://placehold.co/1920x700/111111/333333"
+          alt="CTA background"
+        />
       </div>
       <div className="final-cta__overlay" />
       <div className="container final-cta__content">
         <FadeIn>
-          <span className="section-label" style={{ textAlign: 'center', display: 'block' }}>Let's Connect</span>
+          <span
+            className="section-label"
+            style={{ textAlign: "center", display: "block" }}
+          >
+            Let's Connect
+          </span>
         </FadeIn>
         <FadeIn delay={0.15}>
-          <h2 className="final-cta__title">Let's Build the Next Opportunity Together.</h2>
+          <h2 className="final-cta__title">
+            Let's Build the Next Opportunity Together.
+          </h2>
         </FadeIn>
         <FadeIn delay={0.25}>
           <p className="final-cta__text">
-            Whether you are developing a venue, scaling an event business, launching a hospitality
-            concept, or seeking experienced leadership, Michael brings the strategy, execution,
-            and industry insight to move opportunities forward.
+            Whether you are developing a venue, scaling an event business,
+            launching a hospitality concept, or seeking experienced leadership,
+            Michael brings the strategy, execution, and industry insight to move
+            opportunities forward.
           </p>
         </FadeIn>
         <FadeIn delay={0.35}>

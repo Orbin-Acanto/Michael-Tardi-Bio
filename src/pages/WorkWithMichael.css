@@ -104,8 +104,42 @@
 }
 
 /* CTA */
+.wwm-cta {
+  position: relative;
+  padding: 8rem 0;
+  overflow: hidden;
+}
+
+.wwm-cta__bg {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+}
+
+.wwm-cta__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wwm-cta__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(12,25,49,0.88) 0%, rgba(210,179,113,0.15) 100%);
+  z-index: 1;
+}
+
 .wwm-cta__inner {
+  position: relative;
+  z-index: 2;
   text-align: center;
+}
+
+.wwm-cta__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  color: #fff;
+  margin-bottom: 1rem;
 }
 
 .wwm-cta__text {

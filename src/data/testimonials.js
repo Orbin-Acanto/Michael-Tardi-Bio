@@ -15,7 +15,7 @@ export const testimonials = [
   },
   {
     id: 3,
-    quote: "35 years of real experience shows in every conversation. Michael doesn't just consult — he executes. He's been an invaluable partner in scaling our event business.",
+    quote: "35 years of real experience shows in every conversation. Michael doesn't just consult, he executes. He's been an invaluable partner in scaling our event business.",
     name: "Lisa T.",
     role: "Founder",
     company: "Elite Events NYC",

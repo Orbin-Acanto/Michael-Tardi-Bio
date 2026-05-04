@@ -1,63 +1,74 @@
-import { useState, useRef, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { FiMail, FiLinkedin, FiSend, FiCheck, FiAlertCircle } from 'react-icons/fi';
-import FadeIn from '../components/FadeIn';
-import { submitContactForm } from '../api/contact';
-import './Contact.css';
+import { useState, useRef, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+import {
+  FiMail,
+  FiLinkedin,
+  FiSend,
+  FiCheck,
+  FiAlertCircle,
+} from "react-icons/fi";
+import FadeIn from "../components/FadeIn";
+import { submitContactForm } from "../api/contact";
+import "./Contact.css";
 
 const inquiryTypes = [
-  { value: '', label: 'Select Inquiry Type' },
-  { value: 'consulting', label: 'Consulting & Training' },
-  { value: 'speaking', label: 'Speaking Engagement' },
-  { value: 'investment', label: 'Investment Opportunity' },
-  { value: 'partnership', label: 'Venue Partnership' },
-  { value: 'press', label: 'Media / Press' },
-  { value: 'general', label: 'General Inquiry' },
+  { value: "", label: "Select Inquiry Type" },
+  { value: "consulting", label: "Consulting & Training" },
+  { value: "speaking", label: "Speaking Engagement" },
+  { value: "investment", label: "Investment Opportunity" },
+  { value: "partnership", label: "Venue Partnership" },
+  { value: "press", label: "Media / Press" },
+  { value: "general", label: "General Inquiry" },
 ];
 
 const budgetRanges = [
-  { value: '', label: 'Select Budget Range (Optional)' },
-  { value: 'under-10k', label: 'Under $10,000' },
-  { value: '10k-50k', label: '$10,000 – $50,000' },
-  { value: '50k-100k', label: '$50,000 – $100,000' },
-  { value: '100k-500k', label: '$100,000 – $500,000' },
-  { value: '500k-plus', label: '$500,000+' },
-  { value: 'not-disclosed', label: 'Prefer Not to Disclose' },
+  { value: "", label: "Select Budget Range (Optional)" },
+  { value: "under-10k", label: "Under $10,000" },
+  { value: "10k-50k", label: "$10,000 to $50,000" },
+  { value: "50k-100k", label: "$50,000 to $100,000" },
+  { value: "100k-500k", label: "$100,000 to $500,000" },
+  { value: "500k-plus", label: "$500,000+" },
+  { value: "not-disclosed", label: "Prefer Not to Disclose" },
 ];
 
 const INITIAL_FORM = {
-  name: '',
-  company: '',
-  email: '',
-  phone: '',
-  inquiryType: '',
-  message: '',
-  location: '',
-  timeline: '',
-  budget: '',
+  name: "",
+  company: "",
+  email: "",
+  phone: "",
+  inquiryType: "",
+  message: "",
+  location: "",
+  timeline: "",
+  budget: "",
 };
 
 function validate(fields) {
   const errors = {};
-  if (!fields.name.trim()) errors.name = 'Name is required.';
+  if (!fields.name.trim()) errors.name = "Name is required.";
   if (!fields.email.trim()) {
-    errors.email = 'Email is required.';
+    errors.email = "Email is required.";
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) {
-    errors.email = 'Please enter a valid email address.';
+    errors.email = "Please enter a valid email address.";
   }
-  if (!fields.inquiryType) errors.inquiryType = 'Please select an inquiry type.';
+  if (!fields.inquiryType)
+    errors.inquiryType = "Please select an inquiry type.";
   if (!fields.message.trim() || fields.message.trim().length < 20) {
-    errors.message = 'Please provide a bit more detail (at least 20 characters).';
+    errors.message =
+      "Please provide a bit more detail (at least 20 characters).";
   }
   return errors;
 }
 
 export default function Contact() {
   const [searchParams] = useSearchParams();
-  const [form, setForm] = useState({ ...INITIAL_FORM, inquiryType: searchParams.get('type') || '' });
+  const [form, setForm] = useState({
+    ...INITIAL_FORM,
+    inquiryType: searchParams.get("type") || "",
+  });
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState('idle'); // idle | submitting | success | error
-  const [errorMsg, setErrorMsg] = useState('');
+  const [status, setStatus] = useState("idle"); // idle | submitting | success | error
+  const [errorMsg, setErrorMsg] = useState("");
   const formStartTime = useRef(Date.now());
   const honeypotRef = useRef(null);
 
@@ -68,8 +79,8 @@ export default function Contact() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
+    setForm((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const handleSubmit = async (e) => {
@@ -80,20 +91,20 @@ export default function Contact() {
       return;
     }
 
-    setStatus('submitting');
-    setErrorMsg('');
+    setStatus("submitting");
+    setErrorMsg("");
 
     try {
       await submitContactForm({
         ...form,
-        honeypot: honeypotRef.current?.value ?? '',
+        honeypot: honeypotRef.current?.value ?? "",
         formStartTime: formStartTime.current,
       });
-      setStatus('success');
+      setStatus("success");
       setForm(INITIAL_FORM);
     } catch (err) {
-      setStatus('error');
-      setErrorMsg(err.message || 'Something went wrong. Please try again.');
+      setStatus("error");
+      setErrorMsg(err.message || "Something went wrong. Please try again.");
     }
   };
 
@@ -101,8 +112,10 @@ export default function Contact() {
     <>
       <section className="page-hero">
         <div className="page-hero__bg img-wrap">
-          <img src="https://placehold.co/1920x600/111111/333333" alt="Contact" />
-          <span className="placeholder-label">16:9 wide (1920×600) — Contact Hero Background</span>
+          <img
+            src="https://placehold.co/1920x600/111111/333333"
+            alt="Contact"
+          />
         </div>
         <div className="page-hero__overlay" />
         <div className="container page-hero__inner">
@@ -110,12 +123,17 @@ export default function Contact() {
             <p className="page-hero__label">Get In Touch</p>
           </FadeIn>
           <FadeIn delay={0.1}>
-            <h1 className="page-hero__title">Start a Conversation<br />With Michael.</h1>
+            <h1 className="page-hero__title">
+              Start a Conversation
+              <br />
+              With Michael.
+            </h1>
           </FadeIn>
           <FadeIn delay={0.2}>
             <p className="page-hero__subtitle">
-              Whether you're ready to book, exploring an opportunity, or just want to connect —
-              reach out and Michael's team will respond within 48 hours.
+              Whether you're ready to book, exploring an opportunity, or just
+              want to connect, reach out and Michael's team will respond within
+              48 hours.
             </p>
           </FadeIn>
         </div>
@@ -123,7 +141,6 @@ export default function Contact() {
 
       <section className="section contact-section">
         <div className="container contact-layout">
-
           {/* Left: Info */}
           <div className="contact-info">
             <FadeIn>
@@ -137,32 +154,51 @@ export default function Contact() {
             </FadeIn>
             <FadeIn delay={0.25}>
               <p className="contact-info__desc">
-                Michael and his team are available for consulting inquiries, speaking
-                requests, investment opportunities, venue partnerships, and media requests.
+                Michael and his team are available for consulting inquiries,
+                speaking requests, investment opportunities, venue partnerships,
+                and media requests.
               </p>
             </FadeIn>
 
             <FadeIn delay={0.3}>
               <div className="contact-details">
-                <a href="mailto:info@michaeltardi.com" className="contact-detail">
-                  <span className="contact-detail__icon"><FiMail /></span>
+                <a
+                  href="mailto:mtardi@mmeink.com"
+                  className="contact-detail"
+                >
+                  <span className="contact-detail__icon">
+                    <FiMail />
+                  </span>
                   <div>
                     <span className="contact-detail__label">Email</span>
-                    <span className="contact-detail__value">info@michaeltardi.com</span>
+                    <span className="contact-detail__value">
+                      mtardi@mmeink.com
+                    </span>
                   </div>
                 </a>
-                <a href="https://www.linkedin.com/in/michaeltardi" target="_blank" rel="noopener noreferrer" className="contact-detail">
-                  <span className="contact-detail__icon"><FiLinkedin /></span>
+                <a
+                  href="https://www.linkedin.com/in/michael-tardi/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="contact-detail"
+                >
+                  <span className="contact-detail__icon">
+                    <FiLinkedin />
+                  </span>
                   <div>
                     <span className="contact-detail__label">LinkedIn</span>
                     <span className="contact-detail__value">Michael Tardi</span>
                   </div>
                 </a>
                 <div className="contact-detail">
-                  <span className="contact-detail__icon"><FiSend /></span>
+                  <span className="contact-detail__icon">
+                    <FiSend />
+                  </span>
                   <div>
                     <span className="contact-detail__label">Company</span>
-                    <span className="contact-detail__value">MMEink — mmeink.com</span>
+                    <span className="contact-detail__value">
+                      MMEink at mmeink.com
+                    </span>
                   </div>
                 </div>
               </div>
@@ -177,19 +213,29 @@ export default function Contact() {
             <FadeIn delay={0.4}>
               <div className="contact-response">
                 <div className="contact-response__dot" />
-                <p>Typical response time: <strong>within 48 hours</strong></p>
+                <p>
+                  Typical response time: <strong>within 48 hours</strong>
+                </p>
               </div>
             </FadeIn>
           </div>
 
           {/* Right: Form */}
           <FadeIn delay={0.15} direction="left" className="contact-form-wrap">
-            {status === 'success' ? (
+            {status === "success" ? (
               <div className="contact-success">
-                <div className="contact-success__icon"><FiCheck /></div>
+                <div className="contact-success__icon">
+                  <FiCheck />
+                </div>
                 <h3>Message Received!</h3>
-                <p>Thank you for reaching out. Michael's team will review your inquiry and respond within 48 hours.</p>
-                <button className="btn btn--outline" onClick={() => setStatus('idle')}>
+                <p>
+                  Thank you for reaching out. Michael's team will review your
+                  inquiry and respond within 48 hours.
+                </p>
+                <button
+                  className="btn btn--outline"
+                  onClick={() => setStatus("idle")}
+                >
                   Send Another Message
                 </button>
               </div>
@@ -213,10 +259,14 @@ export default function Contact() {
                   />
                 </div>
 
-                <div className="contact-form__section-title">Basic Information</div>
+                <div className="contact-form__section-title">
+                  Basic Information
+                </div>
 
                 <div className="contact-form__row">
-                  <div className={`form-field ${errors.name ? 'form-field--error' : ''}`}>
+                  <div
+                    className={`form-field ${errors.name ? "form-field--error" : ""}`}
+                  >
                     <label htmlFor="name">Full Name *</label>
                     <input
                       type="text"
@@ -227,7 +277,9 @@ export default function Contact() {
                       placeholder="Your full name"
                       autoComplete="name"
                     />
-                    {errors.name && <span className="form-field__error">{errors.name}</span>}
+                    {errors.name && (
+                      <span className="form-field__error">{errors.name}</span>
+                    )}
                   </div>
                   <div className="form-field">
                     <label htmlFor="company">Company / Organization</label>
@@ -244,7 +296,9 @@ export default function Contact() {
                 </div>
 
                 <div className="contact-form__row">
-                  <div className={`form-field ${errors.email ? 'form-field--error' : ''}`}>
+                  <div
+                    className={`form-field ${errors.email ? "form-field--error" : ""}`}
+                  >
                     <label htmlFor="email">Email Address *</label>
                     <input
                       type="email"
@@ -255,7 +309,9 @@ export default function Contact() {
                       placeholder="your@email.com"
                       autoComplete="email"
                     />
-                    {errors.email && <span className="form-field__error">{errors.email}</span>}
+                    {errors.email && (
+                      <span className="form-field__error">{errors.email}</span>
+                    )}
                   </div>
                   <div className="form-field">
                     <label htmlFor="phone">Phone Number</label>
@@ -271,9 +327,13 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div className="contact-form__section-title">Inquiry Details</div>
+                <div className="contact-form__section-title">
+                  Inquiry Details
+                </div>
 
-                <div className={`form-field ${errors.inquiryType ? 'form-field--error' : ''}`}>
+                <div
+                  className={`form-field ${errors.inquiryType ? "form-field--error" : ""}`}
+                >
                   <label htmlFor="inquiryType">Inquiry Type *</label>
                   <select
                     id="inquiryType"
@@ -281,17 +341,29 @@ export default function Contact() {
                     value={form.inquiryType}
                     onChange={handleChange}
                   >
-                    {inquiryTypes.map(opt => (
-                      <option key={opt.value} value={opt.value} disabled={opt.value === ''}>
+                    {inquiryTypes.map((opt) => (
+                      <option
+                        key={opt.value}
+                        value={opt.value}
+                        disabled={opt.value === ""}
+                      >
                         {opt.label}
                       </option>
                     ))}
                   </select>
-                  {errors.inquiryType && <span className="form-field__error">{errors.inquiryType}</span>}
+                  {errors.inquiryType && (
+                    <span className="form-field__error">
+                      {errors.inquiryType}
+                    </span>
+                  )}
                 </div>
 
-                <div className={`form-field ${errors.message ? 'form-field--error' : ''}`}>
-                  <label htmlFor="message">Tell Us About Your Opportunity *</label>
+                <div
+                  className={`form-field ${errors.message ? "form-field--error" : ""}`}
+                >
+                  <label htmlFor="message">
+                    Tell Us About Your Opportunity *
+                  </label>
                   <textarea
                     id="message"
                     name="message"
@@ -300,7 +372,9 @@ export default function Contact() {
                     placeholder="Describe your project, goals, and what you're looking for..."
                     rows={5}
                   />
-                  {errors.message && <span className="form-field__error">{errors.message}</span>}
+                  {errors.message && (
+                    <span className="form-field__error">{errors.message}</span>
+                  )}
                 </div>
 
                 <div className="contact-form__row">
@@ -336,7 +410,7 @@ export default function Contact() {
                     value={form.budget}
                     onChange={handleChange}
                   >
-                    {budgetRanges.map(opt => (
+                    {budgetRanges.map((opt) => (
                       <option key={opt.value} value={opt.value}>
                         {opt.label}
                       </option>
@@ -344,7 +418,7 @@ export default function Contact() {
                   </select>
                 </div>
 
-                {status === 'error' && (
+                {status === "error" && (
                   <div className="contact-form__api-error">
                     <FiAlertCircle />
                     <span>{errorMsg}</span>
@@ -354,9 +428,9 @@ export default function Contact() {
                 <button
                   type="submit"
                   className="btn btn--primary contact-form__submit"
-                  disabled={status === 'submitting'}
+                  disabled={status === "submitting"}
                 >
-                  {status === 'submitting' ? (
+                  {status === "submitting" ? (
                     <>
                       <span className="contact-form__spinner" /> Sending...
                     </>
@@ -368,7 +442,8 @@ export default function Contact() {
                 </button>
 
                 <p className="contact-form__disclaimer">
-                  Your information is kept strictly confidential and will never be shared with third parties.
+                  Your information is kept strictly confidential and will never
+                  be shared with third parties.
                 </p>
               </form>
             )}

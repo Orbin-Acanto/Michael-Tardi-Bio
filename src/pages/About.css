@@ -145,49 +145,95 @@
 }
 
 /* ─── PHILOSOPHY ─────────────────────────────────────── */
-.philosophy__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+.philosophy__list {
   margin-top: 3rem;
 }
 
-.philosophy-card {
-  padding: 2.5rem 2rem;
-  border-top: 2px solid var(--color-gold);
-  background: var(--color-bg-alt);
-  transition: box-shadow var(--transition-base);
+.philosophy-row {
+  display: grid;
+  grid-template-columns: 80px 1px 1fr;
+  gap: 0 3rem;
+  align-items: start;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--color-border);
 }
 
-.philosophy-card:hover {
-  box-shadow: 0 8px 30px rgba(0,0,0,0.07);
+.philosophy-row:first-child {
+  border-top: 1px solid var(--color-border);
 }
 
-.philosophy-card__num {
+.philosophy-row__num {
   font-family: var(--font-heading);
-  font-size: 2rem;
+  font-size: 2.5rem;
   color: var(--color-gold);
-  opacity: 0.3;
-  display: block;
-  margin-bottom: 0.75rem;
+  opacity: 0.35;
+  line-height: 1;
+  padding-top: 0.2rem;
 }
 
-.philosophy-card__title {
+.philosophy-row__divider {
+  background: var(--color-gold);
+  opacity: 0.25;
+  width: 1px;
+  align-self: stretch;
+}
+
+.philosophy-row__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.philosophy-row__title {
   font-family: var(--font-heading);
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   color: var(--color-text);
-  margin-bottom: 0.75rem;
 }
 
-.philosophy-card__desc {
-  font-size: 0.88rem;
+.philosophy-row__desc {
+  font-size: 0.9rem;
   color: var(--color-text-light);
-  line-height: 1.8;
+  line-height: 1.85;
+  max-width: 680px;
 }
 
 /* ─── ABOUT CTA ──────────────────────────────────────── */
+.about-cta {
+  position: relative;
+  padding: 8rem 0;
+  overflow: hidden;
+}
+
+.about-cta__bg {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+}
+
+.about-cta__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about-cta__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(12,25,49,0.88) 0%, rgba(210,179,113,0.15) 100%);
+  z-index: 1;
+}
+
 .about-cta__inner {
+  position: relative;
+  z-index: 2;
   text-align: center;
+}
+
+.about-cta__title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  color: #fff;
+  margin-bottom: 1rem;
 }
 
 .about-cta__actions {
@@ -195,6 +241,7 @@
   gap: 1rem;
   justify-content: center;
   flex-wrap: wrap;
+  margin-top: 2rem;
 }
 
 /* ─── RESPONSIVE ─────────────────────────────────────── */
@@ -204,9 +251,6 @@
     gap: 3rem;
   }
 
-  .philosophy__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 @media (max-width: 640px) {
@@ -222,7 +266,12 @@
     display: none;
   }
 
-  .philosophy__grid {
-    grid-template-columns: 1fr;
+  .philosophy-row {
+    grid-template-columns: 50px 1px 1fr;
+    gap: 0 1.5rem;
+  }
+
+  .philosophy-row__num {
+    font-size: 1.8rem;
   }
 }

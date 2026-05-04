@@ -94,7 +94,7 @@
 .hero__sub {
   font-size: 1rem;
   color: rgba(255,255,255,0.6);
-  max-width: 560px;
+  max-width: 720px;
   font-weight: 300;
   line-height: 1.8;
   margin-bottom: 2.5rem;
@@ -289,12 +289,21 @@
 .expertise__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  align-items: stretch;
   gap: 0;
   margin-top: 3rem;
   border: 1px solid var(--color-border);
 }
 
+.expertise__grid > * {
+  display: flex;
+  height: 100%;
+}
+
 .expertise-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   padding: 2.5rem 2rem;
   border-right: 1px solid var(--color-border);
   display: flex;
@@ -444,12 +453,21 @@
 .work-with__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  align-items: stretch;
   gap: 0;
   margin-top: 3rem;
   border: 1px solid rgba(255,255,255,0.08);
 }
 
+.work-with__grid > * {
+  display: flex;
+  height: 100%;
+}
+
 .work-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   padding: 3rem 2.5rem;
   border-right: 1px solid rgba(255,255,255,0.08);
   display: flex;
@@ -460,6 +478,15 @@
 
 .work-card:last-child {
   border-right: none;
+}
+
+.work-card .btn {
+  align-self: flex-start;
+  word-break: break-word;
+  hyphens: none;
+  font-size: 0.78rem;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
 }
 
 .work-card:hover {
@@ -571,7 +598,7 @@
 .final-cta__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.78);
+  background: linear-gradient(135deg, rgba(12,25,49,0.82) 0%, rgba(210,179,113,0.18) 100%);
 }
 
 .final-cta__content {
@@ -617,7 +644,8 @@
 
 @media (max-width: 900px) {
   .about-preview__grid { grid-template-columns: 1fr; gap: 3rem; }
-  .about-preview__img-col { max-width: 480px; }
+  .about-preview__img-col { max-width: 480px; margin: 0 auto; order: 2; }
+  .about-preview__text-col { order: 1; }
   .testimonials__grid { grid-template-columns: 1fr; }
 }
 

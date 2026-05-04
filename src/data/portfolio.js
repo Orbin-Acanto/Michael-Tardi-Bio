@@ -3,7 +3,7 @@ export const portfolioCategories = ['All', 'Venues & Real Estate', 'Events & Pro
 export const portfolioItems = [
   {
     id: 1,
-    name: '48 Wall Street — Visit Mexico',
+    name: '48 Wall Street Visit Mexico',
     category: 'Events & Productions',
     location: 'Financial District, Manhattan',
     type: 'Government & Diplomatic Event',
@@ -18,7 +18,7 @@ export const portfolioItems = [
     location: 'Manhattan',
     type: 'Celebrity Entertainment Event',
     role: 'Event Producer',
-    summary: 'Production lead for Jay-Z\'s iconic 40/40 Club Grand Reopening — a high-profile celebrity entertainment event requiring seamless logistics, talent coordination, and elevated hospitality.',
+    summary: 'Production lead for Jay-Z\'s iconic 40/40 Club Grand Reopening, a high-profile celebrity entertainment event requiring seamless logistics, talent coordination, and elevated hospitality.',
     image: { src: 'https://placehold.co/800x600', ratio: '4:3 (800×600)' },
   },
   {
@@ -28,7 +28,7 @@ export const portfolioItems = [
     location: 'Manhattan',
     type: 'Brand Experiential Marketing',
     role: 'Event Strategist & Producer',
-    summary: 'Produced the 50th anniversary brand experiential marketing event for Estée Lauder — a sophisticated, multi-sensory celebration of the iconic beauty brand\'s heritage and vision.',
+    summary: 'Produced the 50th anniversary brand experiential marketing event for Estée Lauder, a sophisticated, multi-sensory celebration of the iconic beauty brand\'s heritage and vision.',
     image: { src: 'https://placehold.co/800x600', ratio: '4:3 (800×600)' },
   },
   {
@@ -38,7 +38,7 @@ export const portfolioItems = [
     location: 'The Plaza Hotel, Manhattan',
     type: 'Corporate Conference',
     role: 'Event Producer',
-    summary: 'Managed production and logistics for the 2013 Standard Chartered Forum at The Plaza Hotel — a prestigious international banking conference requiring executive-level hospitality.',
+    summary: 'Managed production and logistics for the 2013 Standard Chartered Forum at The Plaza Hotel, a prestigious international banking conference requiring executive-level hospitality.',
     image: { src: 'https://placehold.co/800x600', ratio: '4:3 (800×600)' },
   },
   {
@@ -48,7 +48,7 @@ export const portfolioItems = [
     location: 'Cipriani Downtown, Manhattan',
     type: 'Corporate Gala',
     role: 'Event Producer & Venue Liaison',
-    summary: 'Orchestrated Swiss Re\'s landmark 150th anniversary rebranding celebration at Cipriani Downtown — a grand-scale corporate gala with international guests.',
+    summary: 'Orchestrated Swiss Re\'s landmark 150th anniversary rebranding celebration at Cipriani Downtown, a grand-scale corporate gala with international guests.',
     image: { src: 'https://placehold.co/800x600', ratio: '4:3 (800×600)' },
   },
   {
@@ -58,7 +58,7 @@ export const portfolioItems = [
     location: 'Manhattan',
     type: 'Product Launch',
     role: 'Event Producer',
-    summary: 'Produced Samsung\'s flagship Smart TV product launch featuring celebrity appearances by Kate Upton, Eli Manning, and Flo Rida — a high-visibility brand activation.',
+    summary: 'Produced Samsung\'s flagship Smart TV product launch featuring celebrity appearances by Kate Upton, Eli Manning, and Flo Rida, a high-visibility brand activation.',
     image: { src: 'https://placehold.co/800x600', ratio: '4:3 (800×600)' },
   },
   {
@@ -68,7 +68,7 @@ export const portfolioItems = [
     location: 'Manhattan',
     type: 'Immersive Brand Installation',
     role: 'Event Strategist',
-    summary: 'Designed and executed an immersive pop-up installation for Skullcandy\'s Crusher ANC headphone launch — a consumer experience blending audio technology and experiential design.',
+    summary: 'Designed and executed an immersive pop-up installation for Skullcandy\'s Crusher ANC headphone launch, a consumer experience blending audio technology and experiential design.',
     image: { src: 'https://placehold.co/800x600', ratio: '4:3 (800×600)' },
   },
   {
@@ -78,7 +78,7 @@ export const portfolioItems = [
     location: 'Bridgehampton',
     type: 'Charitable Screening Event',
     role: 'Event Producer',
-    summary: 'Produced a charitable drive-in movie screening in Bridgehampton in June 2020 — a community-forward event that combined entertainment with philanthropic fundraising.',
+    summary: 'Produced a charitable drive-in movie screening in Bridgehampton in June 2020, a community-forward event that combined entertainment with philanthropic fundraising.',
     image: { src: 'https://placehold.co/800x600', ratio: '4:3 (800×600)' },
   },
   {
@@ -88,7 +88,7 @@ export const portfolioItems = [
     location: 'Manhattan',
     type: 'Product Launch Event',
     role: 'Event Producer',
-    summary: 'Led production for the ASICS Quantum 360 footwear launch — a dynamic, experiential product event designed to energize brand loyalty and media coverage.',
+    summary: 'Led production for the ASICS Quantum 360 footwear launch, a dynamic, experiential product event designed to energize brand loyalty and media coverage.',
     image: { src: 'https://placehold.co/800x600', ratio: '4:3 (800×600)' },
   },
   {
@@ -98,7 +98,7 @@ export const portfolioItems = [
     location: 'Manhattan',
     type: 'Multi-Day Technology Conference',
     role: 'Event Operator',
-    summary: 'Managed full operations for the three-day C3 SEO and digital marketing conference by Conductor — coordinating 1,000+ attendees, speakers, AV, and hospitality.',
+    summary: 'Managed full operations for the three-day C3 SEO and digital marketing conference by Conductor, coordinating 1,000+ attendees, speakers, AV, and hospitality.',
     image: { src: 'https://placehold.co/800x600', ratio: '4:3 (800×600)' },
   },
   {
@@ -108,7 +108,7 @@ export const portfolioItems = [
     location: '48 Wall Street, Manhattan',
     type: 'Television Production',
     role: 'Venue Operator & Production Host',
-    summary: 'Hosted the Real Housewives of New York City reunion filming at 48 Wall Street — providing the iconic venue, production support, and on-site hospitality for the Bravo network.',
+    summary: 'Hosted the Real Housewives of New York City reunion filming at 48 Wall Street, providing the iconic venue, production support, and on-site hospitality for the Bravo network.',
     image: { src: 'https://placehold.co/800x600', ratio: '4:3 (800×600)' },
   },
   {
@@ -118,7 +118,7 @@ export const portfolioItems = [
     location: 'Manhattan',
     type: 'Premium Tequila & Dining Experience',
     role: 'Hospitality Director',
-    summary: "An intimate Clase Azul tequila chef's table experience — curated pairings, elevated hospitality, and immersive brand storytelling for ultra-premium guests.",
+    summary: "An intimate Clase Azul tequila chef's table experience with curated pairings, elevated hospitality, and immersive brand storytelling for ultra-premium guests.",
     image: { src: 'https://placehold.co/800x600', ratio: '4:3 (800×600)' },
   },
   {
@@ -128,17 +128,17 @@ export const portfolioItems = [
     location: 'Manhattan',
     type: 'Corporate Celebration',
     role: 'Event Producer',
-    summary: 'Full production of MongoDB\'s annual corporate holiday celebration — team experiences, hospitality, décor, and entertainment delivered to a global tech company\'s standards.',
+    summary: 'Full production of MongoDB\'s annual corporate holiday celebration, including team experiences, hospitality, décor, and entertainment delivered to a global tech company\'s standards.',
     image: { src: 'https://placehold.co/800x600', ratio: '4:3 (800×600)' },
   },
   {
     id: 14,
-    name: 'Lenovo Art Basel — Troye Sivan',
+    name: 'Lenovo Art Basel Troye Sivan',
     category: 'Entertainment & Brand',
     location: 'Miami, Art Basel',
     type: 'Art & Brand Collaboration',
     role: 'Event Producer',
-    summary: 'Produced Lenovo\'s "For All Creators" Art Basel event in collaboration with artist Troye Sivan — a cutting-edge creative brand experience at the intersection of tech and art.',
+    summary: 'Produced Lenovo\'s "For All Creators" Art Basel event in collaboration with artist Troye Sivan, a cutting-edge creative brand experience at the intersection of tech and art.',
     image: { src: 'https://placehold.co/800x600', ratio: '4:3 (800×600)' },
   },
   {
@@ -148,7 +148,7 @@ export const portfolioItems = [
     location: 'Cipriani, Manhattan',
     type: 'Red Carpet Entertainment Event',
     role: 'Event Producer',
-    summary: 'Produced the Gossip Girl premiere red carpet party at Cipriani — celebrity guest management, media coordination, luxury hospitality, and full event production.',
+    summary: 'Produced the Gossip Girl premiere red carpet party at Cipriani, including celebrity guest management, media coordination, luxury hospitality, and full event production.',
     image: { src: 'https://placehold.co/800x600', ratio: '4:3 (800×600)' },
   },
   {
@@ -158,7 +158,7 @@ export const portfolioItems = [
     location: 'Park Avenue Armory, Manhattan',
     type: 'Network Red Carpet Production',
     role: 'Production Director',
-    summary: 'Directed full red carpet production for the 2015 A+E Networks Upfront at the iconic Park Avenue Armory — a prestigious media industry showcase for top-tier advertisers and talent.',
+    summary: 'Directed full red carpet production for the 2015 A+E Networks Upfront at the iconic Park Avenue Armory, a prestigious media industry showcase for top-tier advertisers and talent.',
     image: { src: 'https://placehold.co/800x600', ratio: '4:3 (800×600)' },
   },
 ];

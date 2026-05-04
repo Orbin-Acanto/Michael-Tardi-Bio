@@ -27,13 +27,13 @@ export default function Footer() {
               unique venues, and hospitality experiences across Manhattan and beyond.
             </p>
             <div className="footer__social">
-              <a href="https://www.linkedin.com/in/michaeltardi" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/in/michael-tardi/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <FiLinkedin />
               </a>
-              <a href="https://www.instagram.com/michaeltardi" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <a href="https://www.instagram.com/mmeink/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <FiInstagram />
               </a>
-              <a href="mailto:info@michaeltardi.com" aria-label="Email">
+              <a href="mailto:mtardi@mmeink.com" aria-label="Email">
                 <FiMail />
               </a>
             </div>
@@ -50,7 +50,7 @@ export default function Footer() {
             <p className="footer__nav-title">Get In Touch</p>
             <p className="footer__contact-item">
               <span>Email</span>
-              <a href="mailto:info@michaeltardi.com">info@michaeltardi.com</a>
+              <a href="mailto:mtardi@mmeink.com">mtardi@mmeink.com</a>
             </p>
             <p className="footer__contact-item">
               <span>Company</span>
