@@ -60,7 +60,7 @@ export default function Insights() {
       <section className="page-hero">
         <div className="page-hero__bg img-wrap">
           <img
-            src="https://placehold.co/1920x600/111111/333333"
+            src="/images/services/hospitality-food/service-platted.jpg"
             alt="Insights"
           />
         </div>

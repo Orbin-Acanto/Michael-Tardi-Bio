@@ -1,7 +1,7 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { FiArrowRight } from "react-icons/fi";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import FadeIn from "../components/FadeIn";
 import "./Services.css";
 
@@ -17,10 +17,12 @@ const services = [
       "On-site event management and strike coordination",
       "Post-event analysis and performance reporting",
     ],
-    img: {
-      src: "https://placehold.co/600x440/e8e4dc/aaa",
-      ratio: "4:3 (600×440) — Event Production Photo",
-    },
+    images: [
+      { src: "/images/services/event-production/corporate-event.jpg", alt: "Corporate event setup" },
+      { src: "/images/services/event-production/event-production.jpg", alt: "Event production" },
+      { src: "/images/services/event-production/event-setup.jpg", alt: "Event floor setup" },
+      { src: "/images/services/event-production/1920s-theme.jpg", alt: "1920s themed event" },
+    ],
   },
   {
     num: "02",
@@ -33,10 +35,12 @@ const services = [
       "Staffing structure and performance management",
       "Venue revenue strategy and scaling roadmap",
     ],
-    img: {
-      src: "https://placehold.co/600x440/e8e4dc/aaa",
-      ratio: "4:3 (600×440) — Venue Operations Photo",
-    },
+    images: [
+      { src: "/images/services/venue-operations/banking-hall.jpg", alt: "48 Wall Street Banking Hall" },
+      { src: "/images/services/venue-operations/michael-banking-hall.jpg", alt: "Michael at Banking Hall" },
+      { src: "/images/services/venue-operations/venue-setup-1.jpg", alt: "Venue operations setup" },
+      { src: "/images/services/venue-operations/venue-setup-2.jpg", alt: "Venue event ready" },
+    ],
   },
   {
     num: "03",
@@ -49,10 +53,12 @@ const services = [
       "Guest service model design",
       "Menu strategy and pricing optimization",
     ],
-    img: {
-      src: "https://placehold.co/600x440/e8e4dc/aaa",
-      ratio: "4:3 (600×440) — F&B/Hospitality Photo",
-    },
+    images: [
+      { src: "/images/services/hospitality-food/chef-platted.jpg", alt: "Chef plating a dish" },
+      { src: "/images/services/hospitality-food/beverage-service.jpg", alt: "Beverage service" },
+      { src: "/images/services/hospitality-food/bar-service.jpg", alt: "Bar setup" },
+      { src: "/images/services/hospitality-food/staffing.jpg", alt: "Hospitality staffing" },
+    ],
   },
   {
     num: "04",
@@ -65,10 +71,12 @@ const services = [
       "Venue marketing and digital outreach",
       "Partnership and referral network building",
     ],
-    img: {
-      src: "https://placehold.co/600x440/e8e4dc/aaa",
-      ratio: "4:3 (600×440) — Sales/Marketing Photo",
-    },
+    images: [
+      { src: "/images/services/sales-marketing/marketing-tv.jpg", alt: "Marketing on TV display" },
+      { src: "/images/services/sales-marketing/ymca.jpg", alt: "YMCA branded event" },
+      { src: "/images/services/sales-marketing/registration.jpg", alt: "Event registration" },
+      { src: "/images/services/sales-marketing/easels.jpg", alt: "Branded event easels" },
+    ],
   },
   {
     num: "05",
@@ -81,10 +89,10 @@ const services = [
       "Market analysis and competitive landscape review",
       "Investor and stakeholder presentation support",
     ],
-    img: {
-      src: "https://placehold.co/600x440/e8e4dc/aaa",
-      ratio: "4:3 (600×440) — Real Estate/Property Photo",
-    },
+    images: [
+      { src: "/images/services/real-estate/real-estate.jpg", alt: "Real estate property" },
+      { src: "/images/services/real-estate/48-wall-street.jpg", alt: "48 Wall Street building" },
+    ],
   },
   {
     num: "06",
@@ -97,12 +105,98 @@ const services = [
       "Entertainment partnership structuring",
       "Immersive activation planning",
     ],
-    img: {
-      src: "https://placehold.co/600x440/e8e4dc/aaa",
-      ratio: "4:3 (600×440) — Entertainment/Event Photo",
-    },
+    images: [
+      { src: "/images/services/event-production/1920s-theme.jpg", alt: "Themed entertainment event" },
+      { src: "/images/services/event-production/event-setup.jpg", alt: "Entertainment production" },
+    ],
+  },
+  {
+    num: "07",
+    title: "Finding the Perfect Venue",
+    desc: "Michael leverages his exclusive network of landmark venues and deep market knowledge to help brands, organizations, and private clients find the ideal space for their events — from intimate boardrooms to grand ballrooms.",
+    bullets: [
+      "Venue sourcing and site selection",
+      "Space evaluation and capacity planning",
+      "Venue-brand alignment and positioning",
+      "Contract negotiation and vendor coordination",
+      "Multi-venue event strategy",
+    ],
+    images: [
+      { src: "/images/services/finding-venue/main-venue.jpg", alt: "Grand event venue" },
+      { src: "/images/services/finding-venue/60-pine-corporate.jpg", alt: "60 Pine Street corporate setup" },
+      { src: "/images/services/finding-venue/60-pine-weddings.jpg", alt: "60 Pine Street wedding" },
+      { src: "/images/services/finding-venue/60-pine-milestone.jpg", alt: "Milestone celebration venue" },
+    ],
+  },
+  {
+    num: "08",
+    title: "Logistics Training",
+    desc: "Michael provides hands-on logistics training for event teams and venue staff, building the operational skills and systems thinking needed to execute complex events with precision and confidence.",
+    bullets: [
+      "Event setup and strike workflow training",
+      "Load-in/load-out coordination and planning",
+      "Vendor and supplier logistics management",
+      "Staff deployment and floor management",
+      "Emergency preparedness and contingency planning",
+    ],
+    images: [
+      { src: "/images/services/logistics-training/logistics-1.jpg", alt: "Logistics training in action" },
+      { src: "/images/services/venue-operations/venue-setup-3.jpg", alt: "Venue logistics setup" },
+    ],
   },
 ];
+
+function ImageCarousel({ images }) {
+  const [current, setCurrent] = useState(0);
+  const timerRef = useRef(null);
+
+  const startTimer = useCallback(() => {
+    timerRef.current = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % images.length);
+    }, 4000);
+  }, [images.length]);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    startTimer();
+    return () => clearInterval(timerRef.current);
+  }, [images.length, startTimer]);
+
+  const goTo = (idx) => {
+    clearInterval(timerRef.current);
+    setCurrent(idx);
+    startTimer();
+  };
+
+  return (
+    <div className="services-carousel">
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={current}
+          src={images[current].src}
+          alt={images[current].alt}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+          className="services-carousel__img"
+        />
+      </AnimatePresence>
+      {images.length > 1 && (
+        <div className="services-carousel__dots">
+          {images.map((_, idx) => (
+            <button
+              key={idx}
+              className={`services-carousel__dot ${idx === current ? "services-carousel__dot--active" : ""}`}
+              onClick={() => goTo(idx)}
+              aria-label={`View image ${idx + 1}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function ServicesCta() {
   const ref = useRef(null);
@@ -116,8 +210,8 @@ function ServicesCta() {
     <section ref={ref} className="services-cta">
       <motion.div className="services-cta__bg" style={{ y }}>
         <img
-          src="https://placehold.co/1920x700/111111/333333"
-          alt="CTA background"
+          src="/images/services/event-production/event-production.jpg"
+          alt="Event production"
         />
       </motion.div>
       <div className="services-cta__overlay" />
@@ -154,8 +248,8 @@ export default function Services() {
       <section className="page-hero">
         <div className="page-hero__bg img-wrap">
           <img
-            src="https://placehold.co/1920x600/111111/333333"
-            alt="Services"
+            src="/images/services/event-production/event-production.jpg"
+            alt="Event production in action"
           />
         </div>
         <div className="page-hero__overlay" />
@@ -186,7 +280,7 @@ export default function Services() {
           </FadeIn>
           <FadeIn delay={0.1}>
             <h2 className="section-title section-title--center">
-              Six Areas of Deep Expertise
+              Eight Areas of Deep Expertise
             </h2>
           </FadeIn>
           <FadeIn delay={0.2}>
@@ -244,7 +338,7 @@ export default function Services() {
               </div>
               <FadeIn direction={i % 2 !== 0 ? "right" : "left"} delay={0.15}>
                 <div className="services-item__img img-wrap">
-                  <img src={svc.img.src} alt={svc.title} />
+                  <ImageCarousel images={svc.images} />
                 </div>
               </FadeIn>
             </div>

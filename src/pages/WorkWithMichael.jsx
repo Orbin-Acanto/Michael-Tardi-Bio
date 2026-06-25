@@ -41,7 +41,7 @@ function WwmCta() {
   return (
     <section ref={ref} className="wwm-cta">
       <motion.div className="wwm-cta__bg" style={{ y }}>
-        <img src="https://placehold.co/1920x700/111111/333333" alt="CTA background" />
+        <img src="/images/services/event-production/corporate-event.jpg" alt="Event venue" />
       </motion.div>
       <div className="wwm-cta__overlay" />
       <div className="container wwm-cta__inner">
@@ -78,7 +78,7 @@ export default function WorkWithMichael() {
       <section className="page-hero">
         <div className="page-hero__bg img-wrap">
           <img
-            src="https://placehold.co/1920x600/111111/333333"
+            src="/images/services/sales-marketing/branded-event.jpg"
             alt="Work with Michael"
           />
         </div>
@@ -150,8 +150,8 @@ export default function WorkWithMichael() {
             <FadeIn direction="left" delay={0.1}>
               <div className="wwm-img img-wrap">
                 <img
-                  src="https://placehold.co/580x680/e8e4dc/aaa"
-                  alt="Consulting"
+                  src="/images/services/venue-operations/michael-banking-hall.jpg"
+                  alt="Michael Tardi consulting"
                 />
               </div>
             </FadeIn>
@@ -166,8 +166,8 @@ export default function WorkWithMichael() {
             <FadeIn direction="right" delay={0.1}>
               <div className="wwm-img img-wrap">
                 <img
-                  src="https://placehold.co/580x680/e8e4dc/aaa"
-                  alt="Speaking"
+                  src="/images/hero/michael-tardi-portrait.jpg"
+                  alt="Michael Tardi speaking"
                 />
               </div>
             </FadeIn>
@@ -276,8 +276,8 @@ export default function WorkWithMichael() {
             <FadeIn direction="left" delay={0.1}>
               <div className="wwm-img img-wrap">
                 <img
-                  src="https://placehold.co/580x680/e8e4dc/aaa"
-                  alt="Investment"
+                  src="/images/services/real-estate/real-estate.jpg"
+                  alt="Real estate investment"
                 />
               </div>
             </FadeIn>

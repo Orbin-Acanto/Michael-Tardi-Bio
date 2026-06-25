@@ -63,13 +63,11 @@ function VenueContent({ item, handleContact }) {
       <div className="modal-gallery">
         <div className="modal-gallery__main img-wrap">
           <img src={item.images[0].src} alt={item.name} />
-          <span className="placeholder-label">{item.images[0].ratio}</span>
         </div>
         <div className="modal-gallery__thumbs">
           {item.images.slice(1).map((img, i) => (
             <div key={i} className="img-wrap">
               <img src={img.src} alt={`${item.name} ${i + 2}`} />
-              <span className="placeholder-label">{img.ratio}</span>
             </div>
           ))}
         </div>
@@ -120,7 +118,6 @@ function PortfolioContent({ item, handleContact }) {
     <div className="modal-content modal-content--portfolio">
       <div className="modal-portfolio-img img-wrap">
         <img src={item.image.src} alt={item.name} />
-        <span className="placeholder-label">{item.image.ratio}</span>
       </div>
 
       <div className="modal-info">

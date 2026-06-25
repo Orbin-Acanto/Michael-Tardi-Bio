@@ -113,7 +113,7 @@ export default function Contact() {
       <section className="page-hero">
         <div className="page-hero__bg img-wrap">
           <img
-            src="https://placehold.co/1920x600/111111/333333"
+            src="/images/services/venue-operations/venue-setup-1.jpg"
             alt="Contact"
           />
         </div>

@@ -74,7 +74,7 @@ export default function Press() {
     <>
       <section className="page-hero">
         <div className="page-hero__bg img-wrap">
-          <img src="https://placehold.co/1920x600/111111/333333" alt="Press" />
+          <img src="/images/services/sales-marketing/marketing-tv.jpg" alt="Press & Media" />
         </div>
         <div className="page-hero__overlay" />
         <div className="container page-hero__inner">

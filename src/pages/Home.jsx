@@ -7,6 +7,7 @@ import {
   FiMapPin,
   FiUsers,
   FiTrendingUp,
+  FiDownload,
 } from "react-icons/fi";
 import FadeIn from "../components/FadeIn";
 import { portfolioItems } from "../data/portfolio";
@@ -34,7 +35,7 @@ function Hero() {
           muted
           loop
           playsInline
-          poster="https://placehold.co/1920x1080/111111/333333"
+          poster="/images/services/venue-operations/banking-hall.jpg"
         >
           {/* Replace src with actual video file */}
           <source src="" type="video/mp4" />
@@ -43,12 +44,9 @@ function Hero() {
         {/* Fallback when no video */}
         <div className="hero__fallback img-wrap">
           <img
-            src="https://placehold.co/1920x1080/111111/444444"
-            alt="Hero background"
+            src="/images/services/venue-operations/banking-hall.jpg"
+            alt="48 Wall Street Banking Hall"
           />
-          <span className="placeholder-label">
-            16:9 (1920×1080) — Hero Background Video/Photo
-          </span>
         </div>
       </motion.div>
 
@@ -166,13 +164,13 @@ function AboutPreview() {
             <div className="about-preview__img-col">
               <div className="about-preview__img-main img-wrap">
                 <img
-                  src="https://placehold.co/600x750/e8e4dc/aaa"
+                  src="/images/about/michael-tardi-about.jpg"
                   alt="Michael Tardi"
                 />
               </div>
               <div className="about-preview__img-accent img-wrap">
                 <img
-                  src="https://placehold.co/300x300/d2b371/fff"
+                  src="/images/services/event-production/corporate-event.jpg"
                   alt="Event production"
                 />
               </div>
@@ -467,14 +465,79 @@ function Testimonials() {
   );
 }
 
+/* ─── Brochure CTA ────────────────────────────────────────── */
+function BrochureCta() {
+  return (
+    <section className="brochure-cta section">
+      <div className="container">
+        <div className="brochure-cta__grid">
+          <FadeIn direction="right">
+            <div className="brochure-cta__preview">
+              <div className="brochure-cta__mockup">
+                <img
+                  src="/images/hero/michael-tardi-headshot.jpg"
+                  alt="Michael Tardi Brochure"
+                />
+                <div className="brochure-cta__mockup-overlay">
+                  <span className="brochure-cta__mockup-title">Michael Tardi</span>
+                  <span className="brochure-cta__mockup-sub">Professional Brochure</span>
+                </div>
+              </div>
+            </div>
+          </FadeIn>
+          <div className="brochure-cta__text">
+            <FadeIn delay={0.1}>
+              <span className="section-label">Download</span>
+            </FadeIn>
+            <FadeIn delay={0.2}>
+              <h2 className="section-title">
+                The Michael Tardi Professional Brochure
+              </h2>
+            </FadeIn>
+            <FadeIn delay={0.3}>
+              <div className="gold-divider" />
+            </FadeIn>
+            <FadeIn delay={0.35}>
+              <p className="brochure-cta__body">
+                A comprehensive overview of Michael's 35+ years of experience, service
+                offerings, venue portfolio, and partnership opportunities. Perfect for
+                corporate decision-makers, venue owners, and potential partners looking
+                to explore working together.
+              </p>
+            </FadeIn>
+            <FadeIn delay={0.4}>
+              <div className="brochure-cta__highlights">
+                <span className="brochure-cta__highlight">Full Service Overview</span>
+                <span className="brochure-cta__highlight">Venue Portfolio</span>
+                <span className="brochure-cta__highlight">Case Studies</span>
+                <span className="brochure-cta__highlight">Partnership Options</span>
+              </div>
+            </FadeIn>
+            <FadeIn delay={0.45}>
+              <div className="brochure-cta__actions">
+                <Link to="/contact?type=general" className="btn btn--primary">
+                  Request Brochure <FiDownload />
+                </Link>
+                <Link to="/work-with-michael" className="btn btn--outline">
+                  Explore Services <FiArrowRight />
+                </Link>
+              </div>
+            </FadeIn>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ─── Final CTA ────────────────────────────────────────────── */
 function FinalCta() {
   return (
     <section className="final-cta">
       <div className="final-cta__bg img-wrap">
         <img
-          src="https://placehold.co/1920x700/111111/333333"
-          alt="CTA background"
+          src="/images/services/event-production/1920s-theme.jpg"
+          alt="Elegant event setting"
         />
       </div>
       <div className="final-cta__overlay" />
@@ -521,6 +584,7 @@ export default function Home() {
       <PortfolioPreview />
       <WorkWith />
       <Testimonials />
+      <BrochureCta />
       <FinalCta />
     </>
   );

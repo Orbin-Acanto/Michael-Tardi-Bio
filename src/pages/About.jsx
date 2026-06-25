@@ -44,6 +44,15 @@ const timelineItems = [
   },
 ];
 
+const companiesCreated = [
+  { name: "Mikey Mike Entertainment", logo: "/images/companies/mikey-mike-entertainment.png" },
+  { name: "FiDi Hospitality", logo: "/images/companies/fidi-hospitality-black.png" },
+  { name: "MMEink South", logo: "/images/companies/mmeink-south.png" },
+  { name: "Tardi's Catering", logo: "/images/companies/tardis-catering.png" },
+  { name: "Caviar Kart", logo: "/images/companies/caviar-kart.svg" },
+  { name: "Tardi's Cafe", logo: "/images/companies/tardis-cafe.svg" },
+];
+
 const philosophyPoints = [
   {
     title: "Execution Matters",
@@ -75,7 +84,7 @@ function AboutCta() {
   return (
     <section ref={ref} className="about-cta">
       <motion.div className="about-cta__bg" style={{ y }}>
-        <img src="https://placehold.co/1920x700/111111/333333" alt="CTA background" />
+        <img src="/images/services/event-production/event-setup.jpg" alt="Event setup" />
       </motion.div>
       <div className="about-cta__overlay" />
       <div className="container about-cta__inner">
@@ -110,8 +119,8 @@ export default function About() {
       <section className="page-hero">
         <div className="page-hero__bg img-wrap">
           <img
-            src="https://placehold.co/1920x600/111111/333333"
-            alt="About hero"
+            src="/images/services/venue-operations/banking-hall.jpg"
+            alt="48 Wall Street Banking Hall"
           />
         </div>
         <div className="page-hero__overlay" />
@@ -144,7 +153,7 @@ export default function About() {
             <FadeIn direction="right">
               <div className="about-opening__img img-wrap">
                 <img
-                  src="https://placehold.co/580x720/e8e4dc/aaa"
+                  src="/images/hero/michael-tardi-portrait.jpg"
                   alt="Michael Tardi"
                 />
               </div>
@@ -234,6 +243,35 @@ export default function About() {
                     <h3 className="timeline-item__title">{item.title}</h3>
                     <p className="timeline-item__desc">{item.desc}</p>
                   </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Companies Michael Created */}
+      <section className="section section--alt about-companies">
+        <div className="container">
+          <FadeIn>
+            <span className="section-label" style={{ display: "block", textAlign: "center" }}>
+              Companies Michael Created
+            </span>
+          </FadeIn>
+          <FadeIn delay={0.1}>
+            <h2 className="section-title section-title--center">
+              Built From the Ground Up
+            </h2>
+          </FadeIn>
+          <FadeIn delay={0.2}>
+            <div className="gold-divider gold-divider--center" />
+          </FadeIn>
+          <div className="companies-grid">
+            {companiesCreated.map((company, i) => (
+              <FadeIn key={i} delay={i * 0.08}>
+                <div className="company-card">
+                  <img src={company.logo} alt={company.name} className="company-card__logo" />
+                  <span className="company-card__name">{company.name}</span>
                 </div>
               </FadeIn>
             ))}

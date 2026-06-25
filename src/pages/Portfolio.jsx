@@ -21,7 +21,7 @@ export default function Portfolio() {
       <section className="page-hero">
         <div className="page-hero__bg img-wrap">
           <img
-            src="https://placehold.co/1920x600/111111/333333"
+            src="/images/services/event-production/event-setup.jpg"
             alt="Portfolio"
           />
         </div>
@@ -71,7 +71,15 @@ export default function Portfolio() {
                 >
                   <div className="venue-card__img img-wrap">
                     <img src={venue.images[0].src} alt={venue.name} />
-
+                    {venue.logo && (
+                      <div className="venue-card__logo-wrap">
+                        <img
+                          src={venue.logo}
+                          alt={`${venue.name} logo`}
+                          className="venue-card__logo"
+                        />
+                      </div>
+                    )}
                     <div className="venue-card__hover" />
                   </div>
                   <div className="venue-card__body">

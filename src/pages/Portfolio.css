@@ -37,6 +37,29 @@
   transform: scale(1.05);
 }
 
+.venue-card__logo-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  transition: opacity var(--transition-base);
+}
+
+.venue-card__logo {
+  height: 60px;
+  width: auto;
+  max-width: 65%;
+  object-fit: contain;
+  padding: 0.6rem 1rem;
+  background: #fff;
+}
+
+.venue-card:hover .venue-card__logo-wrap {
+  opacity: 0;
+}
+
 .venue-card__hover {
   position: absolute;
   inset: 0;
