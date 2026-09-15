@@ -1,0 +1,56 @@
+.closer {
+  position: relative;
+  background: var(--ink);
+  padding-block: clamp(5rem, 11vw, 9rem);
+  overflow: hidden;
+  text-align: center;
+}
+
+.closer__bg {
+  position: absolute;
+  inset: 0;
+}
+
+.closer__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.25;
+}
+
+.closer__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(20, 17, 15, 0.55), var(--ink) 78%);
+}
+
+.closer__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.closer__title {
+  font-size: var(--t-h1);
+  color: #fff;
+  max-width: 22ch;
+  margin-inline: auto;
+}
+
+/* "He already is one." — the payoff line, set apart in gold italic. */
+.closer__title em {
+  display: block;
+  margin-top: 0.3em;
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.closer__body {
+  margin: 1.6rem auto 0;
+  max-width: 56ch;
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.closer__cta {
+  margin-top: 2.5rem;
+}

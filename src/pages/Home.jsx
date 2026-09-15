@@ -1,591 +1,279 @@
-import { useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
+import { FiArrowRight, FiArrowLeft } from 'react-icons/fi';
+import Reveal from '../components/Reveal';
+import ClosingCta from '../components/ClosingCta';
 import {
-  FiArrowRight,
-  FiAward,
-  FiMapPin,
-  FiUsers,
-  FiTrendingUp,
-  FiDownload,
-} from "react-icons/fi";
-import FadeIn from "../components/FadeIn";
-import { portfolioItems } from "../data/portfolio";
-import { testimonials } from "../data/testimonials";
-import "./Home.css";
+  site,
+  hero,
+  stats,
+  about,
+  services,
+  venues,
+  work,
+  testimonials,
+} from '../data/site';
+import './Home.css';
 
-/* ─── Hero ─────────────────────────────────────────────────── */
+/* ── 1. Hero — typographic left, portrait right, stat rail beneath ──── */
+
 function Hero() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
-
   return (
-    <section ref={ref} className="hero">
-      {/* Video bg */}
-      <motion.div className="hero__bg" style={{ y }}>
-        <video
-          className="hero__video"
-          autoPlay
-          muted
-          loop
-          playsInline
-          poster="/images/services/venue-operations/banking-hall.jpg"
-        >
-          {/* Replace src with actual video file */}
-          <source src="" type="video/mp4" />
-        </video>
-        <div className="hero__overlay" />
-        {/* Fallback when no video */}
-        <div className="hero__fallback img-wrap">
-          <img
-            src="/images/services/venue-operations/banking-hall.jpg"
-            alt="48 Wall Street Banking Hall"
-          />
-        </div>
-      </motion.div>
-
-      {/* Content */}
-      <motion.div
-        className="hero__content container"
-        style={{ y: textY, opacity }}
-      >
-        <motion.span
-          className="hero__label"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.7 }}
-        >
-          Event Specialist of Manhattan
-        </motion.span>
-
-        <motion.h1
-          className="hero__title"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-        >
-          Michael
-          <br />
-          <em>Tardi</em>
-        </motion.h1>
-
-        <motion.p
-          className="hero__headline"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.7 }}
-        >
-          Hospitality. Events. Venues. Real Estate.
-          <br />
-          Built Through 35+ Years of Experience.
-        </motion.p>
-
-        <motion.p
-          className="hero__sub"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9, duration: 0.7 }}
-        >
-          A trusted operator, strategist, and private investor helping brands,
-          venues, and hospitality businesses scale through real-world execution,
-          creative partnerships, and proven industry leadership.
-        </motion.p>
-
-        <motion.div
-          className="hero__actions"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.1, duration: 0.7 }}
-        >
-          <Link to="/work-with-michael" className="btn btn--primary">
-            Work With Michael <FiArrowRight />
-          </Link>
-          <Link to="/portfolio" className="btn btn--outline-white">
-            Explore Experience
-          </Link>
-        </motion.div>
-      </motion.div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        className="hero__scroll"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-      >
-        <span className="hero__scroll-line" />
-        <span className="hero__scroll-text">Scroll</span>
-      </motion.div>
-    </section>
-  );
-}
-
-/* ─── Credibility Snapshot ─────────────────────────────────── */
-const credibilityPoints = [
-  { icon: <FiAward />, number: "35+", label: "Years in Hospitality & Events" },
-  { icon: <FiMapPin />, number: "8+", label: "Exclusive Venue Partners" },
-  { icon: <FiUsers />, number: "500+", label: "Events Produced" },
-  { icon: <FiTrendingUp />, number: "∞", label: "Opportunities to Explore" },
-];
-
-function Credibility() {
-  return (
-    <section className="credibility section--dark">
-      <div className="container">
-        <div className="credibility__grid">
-          {credibilityPoints.map((point, i) => (
-            <FadeIn key={i} delay={i * 0.1}>
-              <div className="credibility__item">
-                <span className="credibility__icon">{point.icon}</span>
-                <span className="credibility__number">{point.number}</span>
-                <span className="credibility__label">{point.label}</span>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
+    <section className="hero">
+      <div className="hero__backdrop">
+        <img src={hero.backdrop} alt="" aria-hidden="true" />
       </div>
-    </section>
-  );
-}
 
-/* ─── About Preview ────────────────────────────────────────── */
-function AboutPreview() {
-  return (
-    <section className="about-preview section">
-      <div className="container">
-        <div className="about-preview__grid">
-          <FadeIn direction="right">
-            <div className="about-preview__img-col">
-              <div className="about-preview__img-main img-wrap">
-                <img
-                  src="/images/about/michael-tardi-about.jpg"
-                  alt="Michael Tardi"
-                />
-              </div>
-              <div className="about-preview__img-accent img-wrap">
-                <img
-                  src="/images/services/event-production/corporate-event.jpg"
-                  alt="Event production"
-                />
-              </div>
-              <div className="about-preview__years">
-                <span className="about-preview__years-num">35+</span>
-                <span className="about-preview__years-text">
-                  Years of Excellence
-                </span>
-              </div>
-            </div>
-          </FadeIn>
-
-          <div className="about-preview__text-col">
-            <FadeIn delay={0.1}>
-              <span className="section-label">About Michael</span>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <h2 className="section-title">
-                Hospitality Meets a Creative Mind
-              </h2>
-            </FadeIn>
-            <FadeIn delay={0.3}>
-              <div className="gold-divider" />
-            </FadeIn>
-            <FadeIn delay={0.35}>
-              <p className="about-preview__body">
-                Michael Tardi is a hospitality and event industry executive with
-                more than three decades of experience building, operating, and
-                scaling event-driven businesses, unique venues, food and
-                beverage concepts, and entertainment experiences.
-              </p>
-            </FadeIn>
-            <FadeIn delay={0.4}>
-              <p className="about-preview__body">
-                Starting at age 13 with a music entertainment startup, Michael
-                built MMEink from a bedroom operation into a full-service event
-                production company serving Manhattan, Long Island, and South
-                Florida. His work connects venue operations, event production,
-                hospitality strategy, real estate opportunities, and brand
-                partnerships.
-              </p>
-            </FadeIn>
-            <FadeIn delay={0.45}>
-              <div className="about-preview__pills">
-                {[
-                  "Venue Operations",
-                  "Event Production",
-                  "Real Estate Strategy",
-                  "Brand Partnerships",
-                  "F&B Concepts",
-                  "Private Investment",
-                ].map((p) => (
-                  <span key={p} className="about-preview__pill">
-                    {p}
-                  </span>
-                ))}
-              </div>
-            </FadeIn>
-            <FadeIn delay={0.5}>
-              <Link to="/about" className="btn btn--dark">
-                Read Michael's Story <FiArrowRight />
-              </Link>
-            </FadeIn>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── Core Expertise ───────────────────────────────────────── */
-const expertiseCards = [
-  {
-    number: "01",
-    title: "Event Production",
-    desc: "Full-scale event strategy, production planning, staffing, vendor coordination, and flawless on-site execution for every type and size of event.",
-    link: "/services",
-  },
-  {
-    number: "02",
-    title: "Venue Operations",
-    desc: "Building the systems, teams, and client experiences that drive venue profitability and long-term success in a competitive hospitality market.",
-    link: "/services",
-  },
-  {
-    number: "03",
-    title: "Hospitality & Food Concepts",
-    desc: "Food and beverage programming, concession concepts, hospitality partnerships, and guest experience strategy that drives revenue and loyalty.",
-    link: "/services",
-  },
-  {
-    number: "04",
-    title: "Real Estate & Venue Development",
-    desc: "Identifying and positioning unique properties for events and hospitality use, from initial concept through full operational launch and beyond.",
-    link: "/services",
-  },
-];
-
-function Expertise() {
-  return (
-    <section className="expertise section section--alt">
-      <div className="container">
-        <FadeIn>
-          <span className="section-label">Core Expertise</span>
-        </FadeIn>
-        <FadeIn delay={0.1}>
-          <h2 className="section-title">
-            What Michael Brings to Every Partnership
-          </h2>
-        </FadeIn>
-        <FadeIn delay={0.2}>
-          <div className="gold-divider" />
-        </FadeIn>
-
-        <div className="expertise__grid">
-          {expertiseCards.map((card, i) => (
-            <FadeIn key={i} delay={i * 0.1}>
-              <Link to={card.link} className="expertise-card">
-                <span className="expertise-card__num">{card.number}</span>
-                <h3 className="expertise-card__title">{card.title}</h3>
-                <p className="expertise-card__desc">{card.desc}</p>
-                <span className="expertise-card__arrow">
-                  <FiArrowRight />
-                </span>
-              </Link>
-            </FadeIn>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── Portfolio Preview ────────────────────────────────────── */
-function PortfolioPreview() {
-  const preview = portfolioItems.slice(0, 6);
-
-  return (
-    <section className="portfolio-preview section">
-      <div className="container">
-        <div className="portfolio-preview__header">
-          <div>
-            <FadeIn>
-              <span className="section-label">Featured Work</span>
-            </FadeIn>
-            <FadeIn delay={0.1}>
-              <h2 className="section-title">A Legacy of Iconic Events</h2>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <div className="gold-divider" />
-            </FadeIn>
-          </div>
-          <FadeIn delay={0.2}>
-            <Link to="/portfolio" className="btn btn--outline">
-              View Full Portfolio <FiArrowRight />
-            </Link>
-          </FadeIn>
-        </div>
-
-        <div className="portfolio-preview__grid">
-          {preview.map((item, i) => (
-            <FadeIn key={item.id} delay={i * 0.08}>
-              <Link to="/portfolio" className="portfolio-card">
-                <div className="portfolio-card__img img-wrap">
-                  <img src={item.image.src} alt={item.name} />
-                  <div className="portfolio-card__overlay">
-                    <span className="portfolio-card__category">
-                      {item.category}
-                    </span>
-                    <h3 className="portfolio-card__name">{item.name}</h3>
-                    <p className="portfolio-card__role">{item.role}</p>
-                  </div>
-                </div>
-              </Link>
-            </FadeIn>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── Work With Michael ────────────────────────────────────── */
-const workOptions = [
-  {
-    title: "Consulting & Training",
-    desc: "For venues, hospitality groups, event companies, and corporate teams looking to improve operations and deliver stronger guest experiences.",
-    cta: "Book a Consultation",
-    type: "consulting",
-  },
-  {
-    title: "Speaking & Mentorship",
-    desc: "For events, panels, leadership sessions, and young entrepreneurs seeking practical insights from 35+ years of real-world industry leadership.",
-    cta: "Request Speaking Engagement",
-    type: "speaking",
-  },
-  {
-    title: "Investment & Strategic Partnerships",
-    desc: "For brands, real estate opportunities, hospitality concepts, and event businesses seeking an experienced private investor and strategic partner.",
-    cta: "Submit Investment Opportunity",
-    type: "investment",
-  },
-];
-
-function WorkWith() {
-  return (
-    <section className="work-with section section--dark">
-      <div className="container">
-        <FadeIn>
-          <span className="section-label">Work With Michael</span>
-        </FadeIn>
-        <FadeIn delay={0.1}>
-          <h2 className="section-title" style={{ color: "#fff" }}>
-            Three Ways to Partner
-          </h2>
-        </FadeIn>
-        <FadeIn delay={0.2}>
-          <div className="gold-divider" />
-        </FadeIn>
-
-        <div className="work-with__grid">
-          {workOptions.map((opt, i) => (
-            <FadeIn key={i} delay={i * 0.15}>
-              <div className="work-card">
-                <span className="work-card__num">0{i + 1}</span>
-                <h3 className="work-card__title">{opt.title}</h3>
-                <p className="work-card__desc">{opt.desc}</p>
-                <Link
-                  to={`/contact?type=${opt.type}`}
-                  className="btn btn--outline"
-                  style={{ marginTop: "auto" }}
-                >
-                  {opt.cta} <FiArrowRight />
-                </Link>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-
-        <FadeIn delay={0.3}>
-          <div className="work-with__bottom">
-            <Link to="/work-with-michael" className="btn btn--primary">
-              Explore All Opportunities <FiArrowRight />
-            </Link>
-          </div>
-        </FadeIn>
-      </div>
-    </section>
-  );
-}
-
-/* ─── Testimonials ─────────────────────────────────────────── */
-function Testimonials() {
-  return (
-    <section className="testimonials section section--alt">
-      <div className="container">
-        <FadeIn>
-          <span
-            className="section-label section-label--center"
-            style={{ textAlign: "center", display: "block" }}
-          >
-            Reputation
-          </span>
-        </FadeIn>
-        <FadeIn delay={0.1}>
-          <h2 className="section-title section-title--center">
-            What Partners Say
-          </h2>
-        </FadeIn>
-        <FadeIn delay={0.2}>
-          <div className="gold-divider gold-divider--center" />
-        </FadeIn>
-
-        <div className="testimonials__grid">
-          {testimonials.map((t, i) => (
-            <FadeIn key={t.id} delay={i * 0.1}>
-              <div className="testimonial-card">
-                <span className="testimonial-card__quote-mark">"</span>
-                <p className="testimonial-card__quote">{t.quote}</p>
-                <div className="testimonial-card__author">
-                  <span className="testimonial-card__name">{t.name}</span>
-                  <span className="testimonial-card__role">
-                    {t.role}, {t.company}
-                  </span>
-                </div>
-              </div>
-            </FadeIn>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── Brochure CTA ────────────────────────────────────────── */
-function BrochureCta() {
-  return (
-    <section className="brochure-cta section">
-      <div className="container">
-        <div className="brochure-cta__grid">
-          <FadeIn direction="right">
-            <div className="brochure-cta__preview">
-              <div className="brochure-cta__mockup">
-                <img
-                  src="/images/hero/michael-tardi-headshot.jpg"
-                  alt="Michael Tardi Brochure"
-                />
-                <div className="brochure-cta__mockup-overlay">
-                  <span className="brochure-cta__mockup-title">Michael Tardi</span>
-                  <span className="brochure-cta__mockup-sub">Professional Brochure</span>
-                </div>
-              </div>
-            </div>
-          </FadeIn>
-          <div className="brochure-cta__text">
-            <FadeIn delay={0.1}>
-              <span className="section-label">Download</span>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <h2 className="section-title">
-                The Michael Tardi Professional Brochure
-              </h2>
-            </FadeIn>
-            <FadeIn delay={0.3}>
-              <div className="gold-divider" />
-            </FadeIn>
-            <FadeIn delay={0.35}>
-              <p className="brochure-cta__body">
-                A comprehensive overview of Michael's 35+ years of experience, service
-                offerings, venue portfolio, and partnership opportunities. Perfect for
-                corporate decision-makers, venue owners, and potential partners looking
-                to explore working together.
-              </p>
-            </FadeIn>
-            <FadeIn delay={0.4}>
-              <div className="brochure-cta__highlights">
-                <span className="brochure-cta__highlight">Full Service Overview</span>
-                <span className="brochure-cta__highlight">Venue Portfolio</span>
-                <span className="brochure-cta__highlight">Case Studies</span>
-                <span className="brochure-cta__highlight">Partnership Options</span>
-              </div>
-            </FadeIn>
-            <FadeIn delay={0.45}>
-              <div className="brochure-cta__actions">
-                <Link to="/contact?type=general" className="btn btn--primary">
-                  Request Brochure <FiDownload />
-                </Link>
-                <Link to="/work-with-michael" className="btn btn--outline">
-                  Explore Services <FiArrowRight />
-                </Link>
-              </div>
-            </FadeIn>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── Final CTA ────────────────────────────────────────────── */
-function FinalCta() {
-  return (
-    <section className="final-cta">
-      <div className="final-cta__bg img-wrap">
-        <img
-          src="/images/services/event-production/1920s-theme.jpg"
-          alt="Elegant event setting"
-        />
-      </div>
-      <div className="final-cta__overlay" />
-      <div className="container final-cta__content">
-        <FadeIn>
-          <span
-            className="section-label"
-            style={{ textAlign: "center", display: "block" }}
-          >
-            Let's Connect
-          </span>
-        </FadeIn>
-        <FadeIn delay={0.15}>
-          <h2 className="final-cta__title">
-            Let's Build the Next Opportunity Together.
-          </h2>
-        </FadeIn>
-        <FadeIn delay={0.25}>
-          <p className="final-cta__text">
-            Whether you are developing a venue, scaling an event business,
-            launching a hospitality concept, or seeking experienced leadership,
-            Michael brings the strategy, execution, and industry insight to move
-            opportunities forward.
+      <div className="shell hero__grid">
+        <div className="hero__copy">
+          <p className="hero__roles">
+            {site.roles.map((r) => (
+              <span key={r}>{r}</span>
+            ))}
           </p>
-        </FadeIn>
-        <FadeIn delay={0.35}>
-          <Link to="/contact" className="btn btn--primary">
-            Contact Michael <FiArrowRight />
-          </Link>
-        </FadeIn>
+
+          <h1 className="hero__name">
+            {hero.name[0]}
+            <span>{hero.name[1]}</span>
+          </h1>
+
+          <p className="hero__headline">{hero.headline}</p>
+          <p className="hero__body">{hero.body}</p>
+
+          <div className="hero__actions">
+            <Link to="/contact" className="btn btn--gold">
+              Work With Michael <FiArrowRight />
+            </Link>
+            <Link to="/about" className="btn btn--ghost-light">
+              Read the Story
+            </Link>
+          </div>
+        </div>
+
+        <div className="hero__portrait">
+          <img src={hero.portrait} alt={hero.portraitAlt} fetchPriority="high" />
+          <span className="hero__location">{hero.location}</span>
+        </div>
+      </div>
+
+      {/* Stat rail sits inside the hero so it costs no extra section. */}
+      <div className="hero__rail">
+        <div className="shell hero__rail-inner">
+          {stats.map((s) => (
+            <div key={s.label} className="stat">
+              <span className="stat__value">{s.value}</span>
+              <span className="stat__label">{s.label}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
 }
 
-/* ─── Page ─────────────────────────────────────────────────── */
+/* ── 2. About ──────────────────────────────────────────────────────── */
+
+function About() {
+  return (
+    <section className="band intro">
+      <div className="shell intro__grid">
+        <Reveal className="intro__media">
+          <div className="intro__frame" aria-hidden="true" />
+          <img src={about.portrait} alt={about.portraitAlt} loading="lazy" />
+        </Reveal>
+
+        <div className="intro__copy">
+          <Reveal>
+            <p className="eyebrow">{about.eyebrow}</p>
+            <h2 className="h-section">{about.title}</h2>
+          </Reveal>
+
+          {about.story.slice(0, 2).map((p, i) => (
+            <Reveal key={i} delay={0.1 + i * 0.08}>
+              <p className="intro__para">{p}</p>
+            </Reveal>
+          ))}
+
+          <Reveal delay={0.28}>
+            <ul className="intro__pills">
+              {about.pills.map((p) => (
+                <li key={p}>{p}</li>
+              ))}
+            </ul>
+          </Reveal>
+
+          <Reveal delay={0.34}>
+            <Link to="/about" className="btn btn--ink">
+              Read Michael&rsquo;s Story <FiArrowRight />
+            </Link>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── 3. Services — typographic, so it needs no photography ─────────── */
+
+function Services() {
+  return (
+    <section className="band band--ivory">
+      <div className="shell">
+        <Reveal>
+          <p className="eyebrow">What Michael Does</p>
+          <h2 className="h-section">Four businesses, one operator</h2>
+        </Reveal>
+
+        <div className="svc">
+          {services.map((s, i) => (
+            <Reveal key={s.title} delay={i * 0.07}>
+              <article className="svc__row">
+                <span className="svc__num">{String(i + 1).padStart(2, '0')}</span>
+                <h3 className="svc__title">{s.title}</h3>
+                <p className="svc__body">{s.body}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── 4. Venue network — logos only ─────────────────────────────────── */
+
+function Venues() {
+  return (
+    <section className="band band--tight band--ink venues">
+      <div className="shell">
+        <Reveal>
+          <p className="eyebrow eyebrow--center">Iconic Spaces, Extraordinary Events</p>
+          <h2 className="h-section h-section--center">An exclusive venue network</h2>
+        </Reveal>
+
+        <Reveal delay={0.12}>
+          <ul className="venues__grid">
+            {venues.map((v) => {
+              const inner = (
+                <>
+                  <img src={v.logo} alt="" loading="lazy" aria-hidden="true" />
+                  <span className="venues__name">{v.name}</span>
+                </>
+              );
+              return (
+                <li key={v.name} className="venues__item">
+                  {v.url ? (
+                    <a href={v.url} target="_blank" rel="noreferrer" aria-label={v.name}>
+                      {inner}
+                    </a>
+                  ) : (
+                    inner
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+/* ── 5. Selected work ──────────────────────────────────────────────── */
+
+function Work() {
+  return (
+    <section className="band work">
+      <div className="shell">
+        <Reveal>
+          <div className="work__head">
+            <div>
+              <p className="eyebrow">Selected Work</p>
+              <h2 className="h-section">A legacy of iconic events</h2>
+            </div>
+            <Link to="/contact" className="btn btn--ghost work__head-cta">
+              Request Full Portfolio <FiArrowRight />
+            </Link>
+          </div>
+        </Reveal>
+
+        <div className="work__grid">
+          {work.map((w, i) => (
+            <Reveal key={w.name} delay={i * 0.1}>
+              <article className="card">
+                <div className="card__media">
+                  <img src={w.image} alt={w.name} loading="lazy" />
+                </div>
+                <p className="card__meta">
+                  {w.type} <span>·</span> {w.client}
+                </p>
+                <h3 className="card__title">{w.name}</h3>
+                <p className="card__summary">{w.summary}</p>
+                <p className="card__role">{w.role}</p>
+              </article>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── 6. Testimonials — one quote at a time ─────────────────────────── */
+
+function Testimonials() {
+  const [i, setI] = useState(0);
+  const total = testimonials.length;
+
+  const go = useCallback((dir) => setI((p) => (p + dir + total) % total), [total]);
+
+  useEffect(() => {
+    const id = setInterval(() => setI((p) => (p + 1) % total), 8000);
+    return () => clearInterval(id);
+  }, [total]);
+
+  const t = testimonials[i];
+
+  return (
+    <section className="band band--ivory quote">
+      <div className="shell quote__inner">
+        <Reveal>
+          <p className="eyebrow eyebrow--center">Reputation</p>
+        </Reveal>
+
+        <blockquote className="quote__text" key={i}>
+          {t.quote}
+        </blockquote>
+
+        <p className="quote__name">{t.name}</p>
+        <p className="quote__role">{t.role}</p>
+
+        <div className="quote__nav">
+          <button onClick={() => go(-1)} aria-label="Previous testimonial">
+            <FiArrowLeft />
+          </button>
+          <span className="quote__count">
+            {String(i + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+          </span>
+          <button onClick={() => go(1)} aria-label="Next testimonial">
+            <FiArrowRight />
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   return (
     <>
       <Hero />
-      <Credibility />
-      <AboutPreview />
-      <Expertise />
-      <PortfolioPreview />
-      <WorkWith />
+      <About />
+      <Services />
+      <Venues />
+      <Work />
       <Testimonials />
-      <BrochureCta />
-      <FinalCta />
+      <ClosingCta />
     </>
   );
 }

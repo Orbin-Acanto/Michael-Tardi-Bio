@@ -1,346 +1,371 @@
-/* ─── PAGE HERO ──────────────────────────────────────── */
-.page-hero {
-  position: relative;
-  padding: 10rem 0 5rem;
-  overflow: hidden;
-  background: var(--color-bg-dark);
-}
+/* ── Story ─────────────────────────────────────────────────────────── */
 
-.page-hero__bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-
-.page-hero__bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0.25;
-}
-
-.page-hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, rgba(0,0,0,0.8) 40%, rgba(0,0,0,0.3) 100%);
-  z-index: 1;
-}
-
-.page-hero__inner {
-  position: relative;
-  z-index: 2;
-}
-
-/* ─── OPENING ────────────────────────────────────────── */
-.about-opening__grid {
+.story__grid {
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 5rem;
-  align-items: center;
+  grid-template-columns: 0.8fr 1fr;
+  gap: clamp(2.5rem, 7vw, 6rem);
+  align-items: start;
 }
 
-.about-opening__img {
+.story__media {
+  position: sticky;
+  top: 8rem;
+}
+
+.story__media img {
   position: relative;
-}
-
-.about-opening__img img {
   width: 100%;
-  aspect-ratio: 4/5;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
 }
 
-.about-opening__img::before {
+.story__frame {
+  position: absolute;
+  inset: -1.5rem 1.5rem 1.5rem -1.5rem;
+  border: 1px solid var(--gold);
+  pointer-events: none;
+}
+
+.story__para {
+  margin-top: 1.4rem;
+  max-width: 62ch;
+}
+
+/* "But performing was only the beginning." — a deliberate one-line beat. */
+.story__para--beat {
+  margin-top: 2rem;
+  font-family: var(--display);
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+/* ── Timeline ──────────────────────────────────────────────────────── */
+
+.tl {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  list-style: none;
+  border-left: 1px solid var(--rule);
+}
+
+.tl__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  gap: clamp(1rem, 4vw, 3rem);
+  padding: 0 0 clamp(2rem, 4vw, 3rem) clamp(1.75rem, 4vw, 3rem);
+}
+
+.tl__item::before {
   content: '';
   position: absolute;
-  top: -1.5rem;
-  left: -1.5rem;
-  width: 60%;
-  height: 60%;
-  border: 2px solid var(--color-gold);
-  z-index: -1;
-  opacity: 0.4;
-}
-
-.about-opening__body {
-  font-size: 0.95rem;
-  color: var(--color-text-light);
-  line-height: 1.9;
-  margin-bottom: 1.25rem;
-}
-
-/* ─── TIMELINE ───────────────────────────────────────── */
-.timeline {
-  margin-top: 3rem;
-}
-
-.timeline-item {
-  display: grid;
-  grid-template-columns: 160px 40px 1fr;
-  gap: 0 1rem;
-  min-height: 100px;
-}
-
-.timeline-item__left {
-  text-align: right;
-  padding-top: 0.1rem;
-  padding-right: 0.5rem;
-}
-
-.timeline-item__year {
-  display: block;
-  font-family: var(--font-heading);
-  font-size: 1.1rem;
-  color: var(--color-gold);
-}
-
-.timeline-item__era {
-  display: block;
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  margin-top: 0.2rem;
-}
-
-.timeline-item__connector {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.timeline-item__dot {
-  width: 12px;
-  height: 12px;
+  left: -4.5px;
+  top: 0.55rem;
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
   border-radius: 50%;
-  background: var(--color-gold);
-  flex-shrink: 0;
-  margin-top: 0.2rem;
-  box-shadow: 0 0 0 4px rgba(210,179,113,0.2);
 }
 
-.timeline-item__line {
-  flex: 1;
-  width: 1px;
-  background: linear-gradient(to bottom, var(--color-gold), rgba(210,179,113,0.1));
-  margin-top: 0.5rem;
+.tl__marker {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  color: var(--gold);
+  letter-spacing: 0.04em;
 }
 
-.timeline-item__content {
-  padding-bottom: 2.5rem;
+.tl__title {
+  font-size: var(--t-h3);
+  margin-bottom: 0.55rem;
 }
 
-.timeline-item__title {
-  font-family: var(--font-heading);
-  font-size: 1.25rem;
-  color: var(--color-text);
-  margin-bottom: 0.6rem;
+.tl__body p {
+  max-width: 62ch;
 }
 
-.timeline-item__desc {
-  font-size: 0.9rem;
-  color: var(--color-text-light);
-  line-height: 1.8;
-  max-width: 580px;
-}
+/* ── The entrepreneur ──────────────────────────────────────────────── */
 
-/* ─── COMPANIES MICHAEL CREATED ─────────────────────── */
-.companies-grid {
+.ent__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3rem 4rem;
-  margin-top: 3rem;
-}
-
-.company-card {
-  display: flex;
-  flex-direction: column;
+  grid-template-columns: 1fr 0.72fr;
+  gap: clamp(2.5rem, 7vw, 5rem);
   align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  padding: 2rem 1rem;
-  transition: transform var(--transition-base);
 }
 
-.company-card:hover {
-  transform: translateY(-4px);
-}
-
-.company-card__logo {
-  height: 60px;
-  width: auto;
-  max-width: 200px;
-  object-fit: contain;
-}
-
-.company-card__name {
-  font-family: var(--font-body);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-}
-
-@media (max-width: 900px) {
-  .companies-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .companies-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ─── PHILOSOPHY ─────────────────────────────────────── */
-.philosophy__list {
-  margin-top: 3rem;
-}
-
-.philosophy-row {
-  display: grid;
-  grid-template-columns: 80px 1px 1fr;
-  gap: 0 3rem;
-  align-items: start;
-  padding: 2.5rem 0;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.philosophy-row:first-child {
-  border-top: 1px solid var(--color-border);
-}
-
-.philosophy-row__num {
-  font-family: var(--font-heading);
-  font-size: 2.5rem;
-  color: var(--color-gold);
-  opacity: 0.35;
-  line-height: 1;
-  padding-top: 0.2rem;
-}
-
-.philosophy-row__divider {
-  background: var(--color-gold);
-  opacity: 0.25;
-  width: 1px;
-  align-self: stretch;
-}
-
-.philosophy-row__body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.philosophy-row__title {
-  font-family: var(--font-heading);
-  font-size: 1.25rem;
-  color: var(--color-text);
-}
-
-.philosophy-row__desc {
-  font-size: 0.9rem;
-  color: var(--color-text-light);
-  line-height: 1.85;
-  max-width: 680px;
-}
-
-/* ─── ABOUT CTA ──────────────────────────────────────── */
-.about-cta {
-  position: relative;
-  padding: 8rem 0;
-  overflow: hidden;
-}
-
-.about-cta__bg {
-  position: absolute;
-  inset: -20%;
-  z-index: 0;
-}
-
-.about-cta__bg img {
+.ent__media img {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
 }
 
-.about-cta__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(12,25,49,0.88) 0%, rgba(210,179,113,0.15) 100%);
-  z-index: 1;
+.ventures {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.75rem, 4vw, 3rem);
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+  list-style: none;
 }
 
-.about-cta__inner {
-  position: relative;
-  z-index: 2;
+.ventures__item {
+  border-top: 1px solid var(--gold);
+  padding-top: 1.5rem;
+}
+
+.ventures__role {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.ventures__name {
+  font-size: var(--t-h3);
+  margin: 0.5rem 0 0.75rem;
+}
+
+/* ── Personality ───────────────────────────────────────────────────── */
+
+.pers__grid {
+  display: grid;
+  grid-template-columns: 0.72fr 1fr;
+  gap: clamp(2.5rem, 7vw, 5.5rem);
+  align-items: start;
+}
+
+.pers__media img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+.pers__title {
+  max-width: 24ch;
+}
+
+.pers__traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 2rem 0;
+  list-style: none;
+}
+
+.pers__traits li {
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  border: 1px solid var(--rule-dark);
+  padding: 0.5rem 0.95rem;
+}
+
+.pers__para {
+  margin-top: 1.3rem;
+  max-width: 60ch;
+}
+
+/* The La Mer line — treated as an aside so the humour reads as intentional. */
+.pers__aside {
+  margin-top: 2.5rem;
+  padding-left: 1.75rem;
+  border-left: 1px solid var(--gold);
+}
+
+.pers__aside p {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.pers__aside blockquote {
+  margin-top: 0.6rem;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+  color: var(--gold-light);
+}
+
+/* ── Off the clock ─────────────────────────────────────────────────── */
+
+.otc__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: clamp(2.5rem, 6vw, 5rem);
+  align-items: center;
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.otc__copy .story__para:first-child {
+  margin-top: 0;
+}
+
+.otc__photos {
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.otc__photos img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+/* ── Casting snapshot ──────────────────────────────────────────────── */
+
+.cast__grid {
+  display: grid;
+  grid-template-columns: 0.72fr 1fr;
+  gap: clamp(2.5rem, 6vw, 5rem);
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  align-items: start;
+}
+
+.cast__vitals dl {
+  border-top: 1px solid var(--ink);
+}
+
+.cast__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.cast__row dt {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cast__row dd {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  color: var(--ink);
+}
+
+.cast__credits {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.cast__credit-label {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.7rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.cast__credit ul {
+  list-style: none;
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+.cast__strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 2vw, 1.5rem);
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  list-style: none;
+}
+
+.cast__strip img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
+/* ── Brands ────────────────────────────────────────────────────────── */
+
+.brands {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  list-style: none;
+}
+
+/* Same white-tile treatment as the venue grid — see Home.css. */
+.brands__item {
+  display: grid;
+  place-items: center;
+  gap: 1.1rem;
+  padding: clamp(2rem, 4vw, 3rem) 1.5rem;
+  background: #fff;
   text-align: center;
 }
 
-.about-cta__title {
-  font-family: var(--font-heading);
-  font-size: clamp(1.8rem, 3.5vw, 3rem);
-  color: #fff;
-  margin-bottom: 1rem;
+.brands__item img {
+  height: 76px;
+  width: min(190px, 100%);
+  object-fit: contain;
+  mix-blend-mode: multiply;
 }
 
-.about-cta__actions {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 2rem;
+.brands__item span {
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
-/* ─── RESPONSIVE ─────────────────────────────────────── */
-@media (max-width: 900px) {
-  .about-opening__grid {
+/* ── Responsive ────────────────────────────────────────────────────── */
+
+@media (max-width: 980px) {
+  .story__grid,
+  .ent__grid,
+  .pers__grid,
+  .otc__grid,
+  .cast__grid {
     grid-template-columns: 1fr;
-    gap: 3rem;
   }
 
+  .story__media {
+    position: relative;
+    top: 0;
+    max-width: 400px;
+  }
+
+  .ent__media,
+  .pers__media {
+    max-width: 420px;
+  }
+
+  .ventures,
+  .brands {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 640px) {
-  .timeline-item {
-    grid-template-columns: 80px 32px 1fr;
+  .tl__item {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
   }
 
-  .timeline-item__year {
-    font-size: 0.85rem;
+  .ventures,
+  .brands,
+  .cast__credits,
+  .cast__strip {
+    grid-template-columns: 1fr;
   }
 
-  .timeline-item__era {
+  .cast__strip li:nth-child(n + 3) {
     display: none;
   }
-
-  .philosophy-row {
-    grid-template-columns: 50px 1px 1fr;
-    gap: 0 1.5rem;
-  }
-
-  .philosophy-row__num {
-    font-size: 1.8rem;
-  }
-
-  .about-cta { padding: 5rem 0; }
-  .about-cta__actions { flex-direction: column; align-items: center; }
-  .about-cta__actions .btn { width: 100%; justify-content: center; }
-}
-
-@media (max-width: 400px) {
-  .timeline-item {
-    grid-template-columns: 60px 24px 1fr;
-    gap: 0 0.75rem;
-  }
-
-  .philosophy-row {
-    grid-template-columns: 1fr;
-    gap: 0.5rem 0;
-  }
-
-  .philosophy-row__divider { display: none; }
 }

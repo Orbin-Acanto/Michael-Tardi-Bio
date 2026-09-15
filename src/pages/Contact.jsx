@@ -1,455 +1,298 @@
-import { useState, useRef, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import {
-  FiMail,
-  FiLinkedin,
-  FiSend,
-  FiCheck,
-  FiAlertCircle,
-} from "react-icons/fi";
-import FadeIn from "../components/FadeIn";
-import { submitContactForm } from "../api/contact";
-import "./Contact.css";
+import { useState, useRef, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { FiMail, FiPhone, FiLinkedin, FiArrowRight, FiCheck } from 'react-icons/fi';
+import Reveal from '../components/Reveal';
+import { submitContactForm, primeRecaptcha } from '../api/contact';
+import { site, inquiryTypes, partnerTracks, cta } from '../data/site';
+import './Contact.css';
 
-const inquiryTypes = [
-  { value: "", label: "Select Inquiry Type" },
-  { value: "consulting", label: "Consulting & Training" },
-  { value: "speaking", label: "Speaking Engagement" },
-  { value: "investment", label: "Investment Opportunity" },
-  { value: "partnership", label: "Venue Partnership" },
-  { value: "press", label: "Media / Press" },
-  { value: "general", label: "General Inquiry" },
-];
-
-const budgetRanges = [
-  { value: "", label: "Select Budget Range (Optional)" },
-  { value: "under-10k", label: "Under $10,000" },
-  { value: "10k-50k", label: "$10,000 to $50,000" },
-  { value: "50k-100k", label: "$50,000 to $100,000" },
-  { value: "100k-500k", label: "$100,000 to $500,000" },
-  { value: "500k-plus", label: "$500,000+" },
-  { value: "not-disclosed", label: "Prefer Not to Disclose" },
-];
-
-const INITIAL_FORM = {
-  name: "",
-  company: "",
-  email: "",
-  phone: "",
-  inquiryType: "",
-  message: "",
-  location: "",
-  timeline: "",
-  budget: "",
+const EMPTY = {
+  name: '',
+  company: '',
+  email: '',
+  phone: '',
+  inquiryType: '',
+  message: '',
 };
 
-function validate(fields) {
-  const errors = {};
-  if (!fields.name.trim()) errors.name = "Name is required.";
-  if (!fields.email.trim()) {
-    errors.email = "Email is required.";
-  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) {
-    errors.email = "Please enter a valid email address.";
-  }
-  if (!fields.inquiryType)
-    errors.inquiryType = "Please select an inquiry type.";
-  if (!fields.message.trim() || fields.message.trim().length < 20) {
-    errors.message =
-      "Please provide a bit more detail (at least 20 characters).";
-  }
-  return errors;
+function validate(f) {
+  const e = {};
+  if (!f.name.trim()) e.name = 'Please enter your name.';
+  if (!f.email.trim()) e.email = 'Please enter your email.';
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) e.email = 'That email does not look right.';
+  if (!f.inquiryType) e.inquiryType = 'Please choose an inquiry type.';
+  if (f.message.trim().length < 20) e.message = 'Please add a little more detail.';
+  return e;
 }
 
 export default function Contact() {
-  const [searchParams] = useSearchParams();
-  const [form, setForm] = useState({
-    ...INITIAL_FORM,
-    inquiryType: searchParams.get("type") || "",
-  });
+  const [params] = useSearchParams();
+  const [fields, setFields] = useState(() => ({
+    ...EMPTY,
+    inquiryType: inquiryTypes.some((t) => t.value === params.get('type'))
+      ? params.get('type')
+      : '',
+  }));
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState("idle"); // idle | submitting | success | error
-  const [errorMsg, setErrorMsg] = useState("");
-  const formStartTime = useRef(Date.now());
-  const honeypotRef = useRef(null);
+  const [status, setStatus] = useState('idle'); // idle | sending | sent | error
+  const [serverError, setServerError] = useState('');
 
-  // Reset timer on first interaction
-  const handleFirstInteraction = () => {
-    formStartTime.current = Date.now();
+  const startedAt = useRef(0);
+  const honeypot = useRef('');
+
+  useEffect(() => {
+    startedAt.current = Date.now();
+    primeRecaptcha();
+  }, []);
+
+  const set = (key) => (ev) => {
+    setFields((f) => ({ ...f, [key]: ev.target.value }));
+    setErrors((e) => (e[key] ? { ...e, [key]: undefined } : e));
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
-  };
+  async function onSubmit(ev) {
+    ev.preventDefault();
+    const found = validate(fields);
+    setErrors(found);
+    if (Object.keys(found).length) return;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validation = validate(form);
-    if (Object.keys(validation).length > 0) {
-      setErrors(validation);
-      return;
-    }
-
-    setStatus("submitting");
-    setErrorMsg("");
+    setStatus('sending');
+    setServerError('');
 
     try {
-      await submitContactForm({
-        ...form,
-        honeypot: honeypotRef.current?.value ?? "",
-        formStartTime: formStartTime.current,
+      await submitContactForm(fields, {
+        formStartedAt: startedAt.current,
+        honeypot: honeypot.current,
       });
-      setStatus("success");
-      setForm(INITIAL_FORM);
+      setStatus('sent');
+      setFields(EMPTY);
     } catch (err) {
-      setStatus("error");
-      setErrorMsg(err.message || "Something went wrong. Please try again.");
+      setStatus('error');
+      setServerError(err.message);
     }
-  };
+  }
 
   return (
     <>
-      <section className="page-hero">
-        <div className="page-hero__bg img-wrap">
-          <img
-            src="/images/services/venue-operations/venue-setup-1.jpg"
-            alt="Contact"
-          />
+      <section className="masthead">
+        <div className="masthead__bg">
+          <img src={cta.image} alt="" aria-hidden="true" />
         </div>
-        <div className="page-hero__overlay" />
-        <div className="container page-hero__inner">
-          <FadeIn>
-            <p className="page-hero__label">Get In Touch</p>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <h1 className="page-hero__title">
-              Start a Conversation
-              <br />
-              With Michael.
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.2}>
-            <p className="page-hero__subtitle">
-              Whether you're ready to book, exploring an opportunity, or just
-              want to connect, reach out and Michael's team will respond within
-              48 hours.
-            </p>
-          </FadeIn>
+        <div className="shell masthead__inner">
+          <p className="eyebrow">Contact</p>
+          <h1 className="masthead__title">Start a conversation</h1>
+          <p className="masthead__sub">
+            Casting and press, an event to produce, a venue to book, or a
+            business opportunity — tell Michael what you are working on and he
+            will come back to you personally.
+          </p>
         </div>
       </section>
 
-      <section className="section contact-section">
-        <div className="container contact-layout">
-          {/* Left: Info */}
-          <div className="contact-info">
-            <FadeIn>
-              <span className="section-label">Contact Information</span>
-            </FadeIn>
-            <FadeIn delay={0.1}>
-              <h2 className="section-title">Let's Connect.</h2>
-            </FadeIn>
-            <FadeIn delay={0.2}>
-              <div className="gold-divider" />
-            </FadeIn>
-            <FadeIn delay={0.25}>
-              <p className="contact-info__desc">
-                Michael and his team are available for consulting inquiries,
-                speaking requests, investment opportunities, venue partnerships,
-                and media requests.
-              </p>
-            </FadeIn>
-
-            <FadeIn delay={0.3}>
-              <div className="contact-details">
-                <a
-                  href="mailto:mtardi@mmeink.com"
-                  className="contact-detail"
-                >
-                  <span className="contact-detail__icon">
-                    <FiMail />
-                  </span>
-                  <div>
-                    <span className="contact-detail__label">Email</span>
-                    <span className="contact-detail__value">
-                      mtardi@mmeink.com
-                    </span>
-                  </div>
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/michael-tardi/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="contact-detail"
-                >
-                  <span className="contact-detail__icon">
-                    <FiLinkedin />
-                  </span>
-                  <div>
-                    <span className="contact-detail__label">LinkedIn</span>
-                    <span className="contact-detail__value">Michael Tardi</span>
-                  </div>
-                </a>
-                <div className="contact-detail">
-                  <span className="contact-detail__icon">
-                    <FiSend />
-                  </span>
-                  <div>
-                    <span className="contact-detail__label">Company</span>
-                    <span className="contact-detail__value">
-                      MMEink at mmeink.com
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </FadeIn>
-
-            <FadeIn delay={0.35}>
-              <div className="contact-tagline">
-                <span>"Don't Be Tardi for the Party."</span>
-              </div>
-            </FadeIn>
-
-            <FadeIn delay={0.4}>
-              <div className="contact-response">
-                <div className="contact-response__dot" />
-                <p>
-                  Typical response time: <strong>within 48 hours</strong>
-                </p>
-              </div>
-            </FadeIn>
+      {/* ── Three ways to partner ─────────────────────────────────── */}
+      <section className="band band--tight">
+        <div className="shell">
+          <Reveal>
+            <p className="eyebrow">Ways to Partner</p>
+          </Reveal>
+          <div className="tracks">
+            {partnerTracks.map((t, i) => (
+              <Reveal key={t.type} delay={i * 0.08}>
+                <article className="tracks__item">
+                  <span className="tracks__num">{String(i + 1).padStart(2, '0')}</span>
+                  <h2 className="tracks__title">{t.title}</h2>
+                  <p>{t.body}</p>
+                  <button
+                    type="button"
+                    className="tracks__pick"
+                    onClick={() => {
+                      setFields((f) => ({ ...f, inquiryType: t.type }));
+                      document
+                        .getElementById('contact-form')
+                        ?.scrollIntoView({ block: 'center' });
+                    }}
+                  >
+                    Select this <FiArrowRight />
+                  </button>
+                </article>
+              </Reveal>
+            ))}
           </div>
+        </div>
+      </section>
 
-          {/* Right: Form */}
-          <FadeIn delay={0.15} direction="left" className="contact-form-wrap">
-            {status === "success" ? (
-              <div className="contact-success">
-                <div className="contact-success__icon">
+      {/* ── Form ──────────────────────────────────────────────────── */}
+      <section className="band band--ivory">
+        <div className="shell form__grid">
+          <aside className="form__aside">
+            <Reveal>
+              <p className="eyebrow">Direct</p>
+              <h2 className="h-section">Reach Michael</h2>
+              <a href={`mailto:${site.email}`} className="form__link">
+                <FiMail /> {site.email}
+              </a>
+              <a
+                href={`tel:${site.phone.replace(/[^0-9+]/g, '')}`}
+                className="form__link"
+              >
+                <FiPhone /> {site.phone}
+              </a>
+              <a
+                href={site.social.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="form__link"
+              >
+                <FiLinkedin /> LinkedIn
+              </a>
+              <p className="form__note">
+                Michael reads every inquiry himself. Expect a reply within two
+                business days.
+              </p>
+            </Reveal>
+          </aside>
+
+          <Reveal delay={0.1}>
+            {status === 'sent' ? (
+              <div className="form__done" role="status">
+                <span className="form__done-mark">
                   <FiCheck />
-                </div>
-                <h3>Message Received!</h3>
+                </span>
+                <h2>Message received.</h2>
                 <p>
-                  Thank you for reaching out. Michael's team will review your
-                  inquiry and respond within 48 hours.
+                  Thank you for reaching out. Michael will be in touch shortly at
+                  the email you provided.
                 </p>
-                <button
-                  className="btn btn--outline"
-                  onClick={() => setStatus("idle")}
-                >
-                  Send Another Message
+                <button className="btn btn--ghost" onClick={() => setStatus('idle')}>
+                  Send another message
                 </button>
               </div>
             ) : (
-              <form
-                className="contact-form"
-                onSubmit={handleSubmit}
-                noValidate
-                onFocus={handleFirstInteraction}
-              >
-                {/* ── Honeypot — hidden from real users, bots fill it ── */}
-                <div className="contact-honeypot" aria-hidden="true">
+              <form id="contact-form" className="form" onSubmit={onSubmit} noValidate>
+                {/* Honeypot — hidden from people, irresistible to bots. */}
+                <div className="form__trap" aria-hidden="true">
                   <label htmlFor="website">Website</label>
                   <input
-                    type="text"
                     id="website"
                     name="website"
-                    tabIndex="-1"
+                    type="text"
+                    tabIndex={-1}
                     autoComplete="off"
-                    ref={honeypotRef}
+                    onChange={(e) => {
+                      honeypot.current = e.target.value;
+                    }}
                   />
                 </div>
 
-                <div className="contact-form__section-title">
-                  Basic Information
+                <div className="form__row">
+                  <Field
+                    id="name"
+                    label="Full Name"
+                    required
+                    value={fields.name}
+                    onChange={set('name')}
+                    error={errors.name}
+                    autoComplete="name"
+                  />
+                  <Field
+                    id="company"
+                    label="Company"
+                    value={fields.company}
+                    onChange={set('company')}
+                    autoComplete="organization"
+                  />
                 </div>
 
-                <div className="contact-form__row">
-                  <div
-                    className={`form-field ${errors.name ? "form-field--error" : ""}`}
-                  >
-                    <label htmlFor="name">Full Name *</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={form.name}
-                      onChange={handleChange}
-                      placeholder="Your full name"
-                      autoComplete="name"
-                    />
-                    {errors.name && (
-                      <span className="form-field__error">{errors.name}</span>
-                    )}
-                  </div>
-                  <div className="form-field">
-                    <label htmlFor="company">Company / Organization</label>
-                    <input
-                      type="text"
-                      id="company"
-                      name="company"
-                      value={form.company}
-                      onChange={handleChange}
-                      placeholder="Your company name"
-                      autoComplete="organization"
-                    />
-                  </div>
+                <div className="form__row">
+                  <Field
+                    id="email"
+                    label="Email"
+                    type="email"
+                    required
+                    value={fields.email}
+                    onChange={set('email')}
+                    error={errors.email}
+                    autoComplete="email"
+                  />
+                  <Field
+                    id="phone"
+                    label="Phone"
+                    type="tel"
+                    value={fields.phone}
+                    onChange={set('phone')}
+                    autoComplete="tel"
+                  />
                 </div>
 
-                <div className="contact-form__row">
-                  <div
-                    className={`form-field ${errors.email ? "form-field--error" : ""}`}
-                  >
-                    <label htmlFor="email">Email Address *</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={form.email}
-                      onChange={handleChange}
-                      placeholder="your@email.com"
-                      autoComplete="email"
-                    />
-                    {errors.email && (
-                      <span className="form-field__error">{errors.email}</span>
-                    )}
-                  </div>
-                  <div className="form-field">
-                    <label htmlFor="phone">Phone Number</label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={form.phone}
-                      onChange={handleChange}
-                      placeholder="+1 (555) 000-0000"
-                      autoComplete="tel"
-                    />
-                  </div>
-                </div>
-
-                <div className="contact-form__section-title">
-                  Inquiry Details
-                </div>
-
-                <div
-                  className={`form-field ${errors.inquiryType ? "form-field--error" : ""}`}
-                >
-                  <label htmlFor="inquiryType">Inquiry Type *</label>
+                <div className={`field ${errors.inquiryType ? 'field--error' : ''}`}>
+                  <label htmlFor="inquiryType">
+                    Inquiry Type <span>*</span>
+                  </label>
                   <select
                     id="inquiryType"
-                    name="inquiryType"
-                    value={form.inquiryType}
-                    onChange={handleChange}
+                    value={fields.inquiryType}
+                    onChange={set('inquiryType')}
                   >
-                    {inquiryTypes.map((opt) => (
-                      <option
-                        key={opt.value}
-                        value={opt.value}
-                        disabled={opt.value === ""}
-                      >
-                        {opt.label}
+                    <option value="">Select an option</option>
+                    {inquiryTypes.map((t) => (
+                      <option key={t.value} value={t.value}>
+                        {t.label}
                       </option>
                     ))}
                   </select>
-                  {errors.inquiryType && (
-                    <span className="form-field__error">
-                      {errors.inquiryType}
-                    </span>
-                  )}
+                  {errors.inquiryType && <p className="field__error">{errors.inquiryType}</p>}
                 </div>
 
-                <div
-                  className={`form-field ${errors.message ? "form-field--error" : ""}`}
-                >
+                <div className={`field ${errors.message ? 'field--error' : ''}`}>
                   <label htmlFor="message">
-                    Tell Us About Your Opportunity *
+                    How can Michael help? <span>*</span>
                   </label>
                   <textarea
                     id="message"
-                    name="message"
-                    value={form.message}
-                    onChange={handleChange}
-                    placeholder="Describe your project, goals, and what you're looking for..."
-                    rows={5}
+                    rows={6}
+                    value={fields.message}
+                    onChange={set('message')}
+                    placeholder="Tell us about the venue, event, or opportunity."
                   />
-                  {errors.message && (
-                    <span className="form-field__error">{errors.message}</span>
-                  )}
+                  {errors.message && <p className="field__error">{errors.message}</p>}
                 </div>
 
-                <div className="contact-form__row">
-                  <div className="form-field">
-                    <label htmlFor="location">Location</label>
-                    <input
-                      type="text"
-                      id="location"
-                      name="location"
-                      value={form.location}
-                      onChange={handleChange}
-                      placeholder="City, State or Remote"
-                    />
-                  </div>
-                  <div className="form-field">
-                    <label htmlFor="timeline">Timeline</label>
-                    <input
-                      type="text"
-                      id="timeline"
-                      name="timeline"
-                      value={form.timeline}
-                      onChange={handleChange}
-                      placeholder="e.g. Q3 2025, ASAP, Flexible"
-                    />
-                  </div>
-                </div>
-
-                <div className="form-field">
-                  <label htmlFor="budget">Budget Range (Optional)</label>
-                  <select
-                    id="budget"
-                    name="budget"
-                    value={form.budget}
-                    onChange={handleChange}
-                  >
-                    {budgetRanges.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {status === "error" && (
-                  <div className="contact-form__api-error">
-                    <FiAlertCircle />
-                    <span>{errorMsg}</span>
-                  </div>
+                {serverError && (
+                  <p className="form__server-error" role="alert">
+                    {serverError}
+                  </p>
                 )}
 
                 <button
                   type="submit"
-                  className="btn btn--primary contact-form__submit"
-                  disabled={status === "submitting"}
+                  className="btn btn--gold form__submit"
+                  disabled={status === 'sending'}
                 >
-                  {status === "submitting" ? (
-                    <>
-                      <span className="contact-form__spinner" /> Sending...
-                    </>
-                  ) : (
-                    <>
-                      Submit Inquiry <FiSend />
-                    </>
-                  )}
+                  {status === 'sending' ? 'Sending…' : 'Send Message'}
+                  {status !== 'sending' && <FiArrowRight />}
                 </button>
 
-                <p className="contact-form__disclaimer">
-                  Your information is kept strictly confidential and will never
-                  be shared with third parties.
+                <p className="form__privacy">
+                  Your details are used only to respond to this inquiry. They are
+                  never sold or shared.
                 </p>
               </form>
             )}
-          </FadeIn>
+          </Reveal>
         </div>
       </section>
     </>
+  );
+}
+
+function Field({ id, label, required, error, ...rest }) {
+  return (
+    <div className={`field ${error ? 'field--error' : ''}`}>
+      <label htmlFor={id}>
+        {label} {required && <span>*</span>}
+      </label>
+      <input id={id} {...rest} />
+      {error && <p className="field__error">{error}</p>}
+    </div>
   );
 }

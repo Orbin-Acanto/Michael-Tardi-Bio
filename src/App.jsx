@@ -1,15 +1,9 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation, Link } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import CustomCursor from './components/CustomCursor';
 import Home from './pages/Home';
 import About from './pages/About';
-import WorkWithMichael from './pages/WorkWithMichael';
-import Portfolio from './pages/Portfolio';
-import Services from './pages/Services';
-import Press from './pages/Press';
-import Insights from './pages/Insights';
 import Contact from './pages/Contact';
 
 function ScrollToTop() {
@@ -20,42 +14,18 @@ function ScrollToTop() {
   return null;
 }
 
-function AppLayout() {
-  return (
-    <>
-      <CustomCursor />
-      <Navbar />
-      <main>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/work-with-michael" element={<WorkWithMichael />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/press" element={<Press />} />
-          <Route path="/insights" element={<Insights />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
-      <Footer />
-    </>
-  );
-}
-
 function NotFound() {
   return (
-    <section className="page-hero" style={{ minHeight: '60vh', display: 'flex', alignItems: 'center' }}>
-      <div className="container">
-        <p className="page-hero__label">404</p>
-        <h1 className="page-hero__title" style={{ color: '#fff' }}>Page Not Found</h1>
-        <p className="page-hero__subtitle">
-          The page you're looking for doesn't exist.
+    <section className="masthead">
+      <div className="shell masthead__inner">
+        <p className="eyebrow">Error 404</p>
+        <h1 className="masthead__title">This page does not exist.</h1>
+        <p className="masthead__sub">
+          The link may be out of date. Head back to the homepage to find your way.
         </p>
-        <a href="/" className="btn btn--primary" style={{ marginTop: '2rem', display: 'inline-flex' }}>
+        <Link to="/" className="btn btn--gold" style={{ marginTop: '2.5rem' }}>
           Return Home
-        </a>
+        </Link>
       </div>
     </section>
   );
@@ -64,7 +34,17 @@ function NotFound() {
 export default function App() {
   return (
     <BrowserRouter>
-      <AppLayout />
+      <ScrollToTop />
+      <Navbar />
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+      <Footer />
     </BrowserRouter>
   );
 }

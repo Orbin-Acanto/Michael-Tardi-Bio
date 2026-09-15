@@ -1,16 +1,68 @@
-# React + Vite
+# Michael Tardi — Event Specialist of Manhattan
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A three-page bio and lead-capture site. React 19 + Vite, deployed as a static
+build with one serverless function for the contact form.
 
-Currently, two official plugins are available:
+## Quick start
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev          # http://localhost:5173
+```
 
-## React Compiler
+| Command | What it does |
+|---|---|
+| `npm run dev` | Dev server with hot reload |
+| `npm run build` | Production build into `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run lint` | ESLint over the whole project |
+| `npm run images` | Resize + compress everything in `public/images` in place |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Structure
 
-## Expanding the ESLint configuration
+```
+api/contact.js          Serverless endpoint → forwards leads to n8n
+public/images/          21 web-sized assets (3.9 MB total)
+  michael/              9 portraits of Michael
+scripts/                Image optimiser
+src/
+  data/site.js          ALL copy and image paths — the only file to edit
+                        for content changes
+  components/           Navbar, Footer, Reveal
+  pages/                Home, About, Contact
+  styles/variables.css  Design tokens
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Pages and sections
+
+| Route | Sections |
+|---|---|
+| `/` | Hero (split, portrait right) + stat rail · About · Services · Venue network · Selected work · Testimonials · "The Pitch" CTA |
+| `/about` | Masthead · Story · Timeline · The Entrepreneur · Personality · Off the Clock · Casting Snapshot · Companies founded · CTA |
+| `/contact` | Masthead · Four ways to partner · Form |
+
+## Editing content
+
+Everything readable on the site lives in [`src/data/site.js`](src/data/site.js).
+Change the text there and it updates everywhere — no other file hard-codes copy.
+
+## Replacing images
+
+See [ASSETS.md](ASSETS.md). Short version: drop a file at the same path with
+the same name, then run `npm run images`.
+
+Full-resolution source photography lives in `data/`, which is gitignored —
+only the optimised copies in `public/images` are committed.
+
+## Contact form
+
+The form posts to `/api/contact`, which screens the submission and forwards it
+to an n8n webhook. Four spam layers: a honeypot field, a minimum fill time,
+optional reCAPTCHA v3, and per-IP rate limiting.
+
+Copy `.env.example` to `.env.local` and fill in the n8n values. The form
+returns a clear error until `N8N_LEAD_WEBHOOK_URL` is set.
+
+## Deploying
+
+See [DEPLOY.md](DEPLOY.md).

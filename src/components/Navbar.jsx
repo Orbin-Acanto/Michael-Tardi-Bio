@@ -1,68 +1,64 @@
 import { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import { site } from '../data/site';
 import './Navbar.css';
 
-const navLinks = [
-  { to: '/', label: 'Home' },
+const links = [
+  { to: '/', label: 'Home', end: true },
   { to: '/about', label: 'About' },
-  { to: '/work-with-michael', label: 'Work With Michael' },
-  { to: '/portfolio', label: 'Portfolio' },
-  { to: '/services', label: 'Services' },
-  { to: '/press', label: 'Press' },
-  { to: '/insights', label: 'Insights' },
+  { to: '/contact', label: 'Contact' },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener('scroll', onScroll);
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [menuOpen]);
+    document.body.classList.toggle('is-locked', open);
+    return () => document.body.classList.remove('is-locked');
+  }, [open]);
 
   return (
-    <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
-      <div className="navbar__inner container">
-        <Link to="/" className="navbar__logo" onClick={() => setMenuOpen(false)}>
-          <span className="navbar__logo-name">Michael Tardi</span>
-          <span className="navbar__logo-line" />
-          <span className="navbar__logo-sub">Event Specialist of Manhattan</span>
+    <header className={`nav ${scrolled ? 'nav--solid' : ''} ${open ? 'nav--open' : ''}`}>
+      <div className="nav__inner shell">
+        <Link to="/" className="nav__brand" onClick={() => setOpen(false)}>
+          <span className="nav__name">{site.name}</span>
+          <span className="nav__role">{site.title}</span>
         </Link>
 
-        <nav className={`navbar__nav ${menuOpen ? 'navbar__nav--open' : ''}`}>
-          {navLinks.map(({ to, label }) => (
+        <nav className="nav__links" id="primary-navigation">
+          {links.map(({ to, label, end }) => (
             <NavLink
               key={to}
               to={to}
-              end={to === '/'}
-              className={({ isActive }) => `navbar__link ${isActive ? 'navbar__link--active' : ''}`}
-              onClick={() => setMenuOpen(false)}
+              end={end}
+              className={({ isActive }) => `nav__link ${isActive ? 'is-active' : ''}`}
+              onClick={() => setOpen(false)}
             >
               {label}
             </NavLink>
           ))}
-          <Link
-            to="/contact"
-            className="btn btn--primary navbar__cta"
-            onClick={() => setMenuOpen(false)}
-          >
-            Contact
+          <Link to="/contact" className="btn btn--gold nav__cta" onClick={() => setOpen(false)}>
+            Start a Conversation
           </Link>
         </nav>
 
         <button
-          className={`navbar__burger ${menuOpen ? 'navbar__burger--open' : ''}`}
-          onClick={() => setMenuOpen(v => !v)}
-          aria-label="Toggle menu"
+          className="nav__burger"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          aria-controls="primary-navigation"
+          aria-label={open ? 'Close menu' : 'Open menu'}
         >
-          <span /><span /><span />
+          <span />
+          <span />
         </button>
       </div>
     </header>

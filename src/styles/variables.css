@@ -1,35 +1,36 @@
 :root {
-  /* Colors */
-  --color-bg: #ffffff;
-  --color-bg-alt: #f8f7f5;
-  --color-bg-dark: #111111;
-  --color-text: #1a1a1a;
-  --color-text-light: #555555;
-  --color-text-muted: #888888;
-  --color-gold: #d2b371;
-  --color-gold-light: #e8d4a0;
-  --color-gold-dark: #b8963e;
-  --color-border: #e5e5e5;
-  --color-border-dark: #2a2a2a;
+  /* ── Colour ──────────────────────────────────────────────────────────
+     Warmer and deeper than the previous palette: ivory paper, ink-black
+     text, and a more saturated antique gold that holds up on both. */
+  --ivory: #faf8f4;
+  --ivory-deep: #f1ece3;
+  --ink: #14110f;
+  --ink-soft: #2a2622;
+  --body: #5c554c;
+  --muted: #8d8478;
+  --gold: #c19a4b;
+  --gold-light: #ddbd7c;
+  --rule: #ded7cb;
+  --rule-dark: rgba(255, 255, 255, 0.14);
 
-  /* Typography */
-  --font-heading: 'Gilda Display', serif;
-  --font-body: 'Montserrat', sans-serif;
+  /* ── Type ────────────────────────────────────────────────────────── */
+  --display: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Inter', system-ui, -apple-system, sans-serif;
 
-  /* Spacing */
-  --section-padding: 6rem 0;
-  --section-padding-sm: 4rem 0;
-  --container-max: 1280px;
-  --container-pad: 1.5rem;
+  /* Fluid display sizes so headings never need a media query. */
+  --t-hero: clamp(3.5rem, 11vw, 9rem);
+  --t-h1: clamp(2.5rem, 6vw, 4.5rem);
+  --t-h2: clamp(2rem, 4.2vw, 3.4rem);
+  --t-h3: clamp(1.35rem, 2.2vw, 1.85rem);
+  --t-lead: clamp(1.05rem, 1.5vw, 1.2rem);
 
-  /* Transitions */
-  --transition-fast: 0.2s ease;
-  --transition-base: 0.35s ease;
-  --transition-slow: 0.6s ease;
+  /* ── Layout ──────────────────────────────────────────────────────── */
+  --shell: 1240px;
+  --gutter: clamp(1.25rem, 5vw, 3rem);
+  --band: clamp(4.5rem, 10vw, 9rem);
 
-  /* Z-index */
-  --z-cursor: 9999;
-  --z-nav: 1000;
-  --z-modal: 900;
-  --z-overlay: 800;
+  /* ── Motion ──────────────────────────────────────────────────────── */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --fast: 0.25s var(--ease);
+  --slow: 0.7s var(--ease);
 }

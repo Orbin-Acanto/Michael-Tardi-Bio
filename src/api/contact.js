@@ -1,82 +1,74 @@
 /**
- * Contact form submission handler.
- * Replace PLACEHOLDER_API_ENDPOINT with your actual backend URL.
+ * Client half of the contact form.
  *
- * Bot protection applied before submission:
- *   1. Honeypot field (website) — bots fill it, humans don't
- *   2. Time-based check — too-fast submissions (< 3s) are flagged
- *   3. Rate limiting — max 3 submissions per 10-minute window (client-side)
+ * Posts to /api/contact (see api/contact.js at the repo root), which forwards
+ * the submission to the n8n lead webhook. Spam handling is layered:
+ *
+ *   1. Honeypot field named "website" — bots fill it, humans never see it.
+ *   2. Minimum fill time — anything submitted in under 5s is rejected.
+ *   3. reCAPTCHA v3 — only active when VITE_RECAPTCHA_SITE_KEY is set, so the
+ *      form works locally and can go live before the keys exist.
+ *   4. Server-side IP rate limiting, in the serverless function.
  */
 
-const RATE_LIMIT_KEY = 'mt_contact_attempts';
-const RATE_LIMIT_MAX = 3;
-const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
+const SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
 
-function checkRateLimit() {
-  try {
-    const raw = sessionStorage.getItem(RATE_LIMIT_KEY);
-    const data = raw ? JSON.parse(raw) : { count: 0, windowStart: Date.now() };
-    const now = Date.now();
+let recaptchaReady = null;
 
-    if (now - data.windowStart > RATE_LIMIT_WINDOW_MS) {
-      // Reset window
-      sessionStorage.setItem(RATE_LIMIT_KEY, JSON.stringify({ count: 1, windowStart: now }));
-      return true;
-    }
+function loadRecaptcha() {
+  if (!SITE_KEY) return Promise.resolve(null);
+  if (recaptchaReady) return recaptchaReady;
 
-    if (data.count >= RATE_LIMIT_MAX) {
-      return false;
-    }
-
-    data.count += 1;
-    sessionStorage.setItem(RATE_LIMIT_KEY, JSON.stringify(data));
-    return true;
-  } catch {
-    return true; // Fail open if sessionStorage is unavailable
-  }
-}
-
-export async function submitContactForm({ honeypot, formStartTime, ...formData }) {
-  // 1. Honeypot check — if the hidden field is filled, it's a bot
-  if (honeypot && honeypot.trim() !== '') {
-    // Silently "succeed" so bots don't know they were caught
-    return { success: true };
-  }
-
-  // 2. Time check — real users take at least 3 seconds to fill out a form
-  const elapsed = Date.now() - formStartTime;
-  if (elapsed < 3000) {
-    throw new Error('Submission too fast. Please review your information and try again.');
-  }
-
-  // 3. Rate limiting
-  if (!checkRateLimit()) {
-    throw new Error('Too many submissions. Please wait a few minutes and try again.');
-  }
-
-  // 4. Send to API — replace with your actual endpoint
-  const response = await fetch('PLACEHOLDER_API_ENDPOINT/contact', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name: formData.name,
-      company: formData.company,
-      email: formData.email,
-      phone: formData.phone,
-      inquiryType: formData.inquiryType,
-      message: formData.message,
-      location: formData.location,
-      timeline: formData.timeline,
-      budget: formData.budget,
-      timestamp: new Date().toISOString(),
-      source: 'michaeltardi.com',
-    }),
+  recaptchaReady = new Promise((resolve, reject) => {
+    if (window.grecaptcha) return resolve(window.grecaptcha);
+    const s = document.createElement('script');
+    s.src = `https://www.google.com/recaptcha/api.js?render=${SITE_KEY}`;
+    s.async = true;
+    s.onload = () => resolve(window.grecaptcha);
+    s.onerror = () => reject(new Error('Could not load reCAPTCHA.'));
+    document.head.appendChild(s);
   });
 
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
-    throw new Error(error.message || 'Something went wrong. Please try again or email us directly.');
+  return recaptchaReady;
+}
+
+/** Warm the reCAPTCHA script up front so submitting does not stall. */
+export function primeRecaptcha() {
+  loadRecaptcha().catch(() => {});
+}
+
+async function getRecaptchaToken() {
+  const grecaptcha = await loadRecaptcha();
+  if (!grecaptcha) return '';
+  await new Promise((resolve) => grecaptcha.ready(resolve));
+  return grecaptcha.execute(SITE_KEY, { action: 'contact' });
+}
+
+export async function submitContactForm(fields, { formStartedAt, honeypot }) {
+  const body = new FormData();
+
+  Object.entries(fields).forEach(([key, value]) => body.append(key, value ?? ''));
+
+  body.append('formStartedAt', String(formStartedAt));
+  body.append('website', honeypot ?? '');
+  body.append('recaptchaToken', await getRecaptchaToken());
+  body.append('page', window.location.pathname);
+  body.append('source', 'michaeltardi.com');
+
+  const res = await fetch('/api/contact', { method: 'POST', body });
+
+  let data = {};
+  try {
+    data = await res.json();
+  } catch {
+    /* Non-JSON response — fall through to the generic message below. */
   }
 
-  return response.json();
+  if (!res.ok || data.success === false) {
+    throw new Error(
+      data.message || 'Something went wrong. Please email Michael directly.'
+    );
+  }
+
+  return data;
 }
