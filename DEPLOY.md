@@ -19,20 +19,41 @@ The intended domain, and access to its DNS. The code currently assumes
 
 If the domain is different, say so and it gets changed in one pass.
 
-### B. n8n webhook credentials
+### B. n8n webhook — done, but must be copied to the host
 
-Three values, set as environment variables on the host:
+Already wired and tested against the live endpoint (HTTP 200, workflow
+started). The values are in `.env.local`, which is gitignored, so **they will
+not travel with the repo** — paste them into Vercel by hand.
 
-| Variable | What it is |
+| Variable | Value |
 |---|---|
-| `N8N_LEAD_WEBHOOK_URL` | Full URL of the n8n webhook that should receive leads |
-| `N8N_USERNAME` | Basic-auth username for that webhook |
-| `N8N_PASSWORD` | Basic-auth password for that webhook |
+| `N8N_LEAD_WEBHOOK_URL` | `https://primary-production-f807.up.railway.app/webhook/238842b7-8d12-400a-923b-0cc3e1ea06c1` |
+| `N8N_USERNAME` | 48 Wall Street credential pair — see `.env.local` |
+| `N8N_PASSWORD` | 48 Wall Street credential pair — see `.env.local` |
 
-If the MMEink Worldwide n8n instance should also handle these leads, its
-existing credentials work — the payload shape is deliberately compatible.
+Both MMEink Worldwide and 48 Wall Street sit on this same n8n instance but use
+**different** basic-auth pairs. This site uses the 48 Wall pair. If auth ever
+starts failing, the MMEink pair in `mmeink-worldwide/.env.local` is the
+alternative.
 
-**Until these are set the contact form shows an error.** Everything else works.
+**Until these are set on the host the contact form shows an error.** Everything
+else works.
+
+#### What n8n receives
+
+Alongside the lead fields (`name`, `company`, `email`, `phone`, `inquiryType`,
+`message`, `page`, `source`, `formType`, `submittedAt`) the endpoint sends a
+ready-made email:
+
+| Field | Use in the Send Email node |
+|---|---|
+| `emailSubject` | Subject |
+| `emailHtml` | HTML body |
+| `emailText` | Plain-text body |
+
+So the workflow needs no template of its own — point the node at
+`{{ $json.emailHtml }}` and it is done. Preview the design locally with
+`npm run email:preview`.
 
 ### C. reCAPTCHA v3 keys — optional
 
@@ -143,6 +164,7 @@ is written against the Vercel/Web-standard handler signature.
 
 - [ ] Domain confirmed and DNS pointed
 - [ ] `N8N_LEAD_WEBHOOK_URL`, `N8N_USERNAME`, `N8N_PASSWORD` set
+- [ ] Confirm the n8n Send Email node uses emailSubject / emailHtml / emailText
 - [ ] Test submission received in n8n, and the notification lands in the right inbox
 - [ ] Email, phone, and social links confirmed
 - [ ] Testimonials confirmed real or replaced or removed

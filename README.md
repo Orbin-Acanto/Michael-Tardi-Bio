@@ -17,11 +17,13 @@ npm run dev          # http://localhost:5173
 | `npm run preview` | Serve the production build locally |
 | `npm run lint` | ESLint over the whole project |
 | `npm run images` | Resize + compress everything in `public/images` in place |
+| `npm run email:preview` | Render the lead notification email to `email-preview.html` |
 
 ## Structure
 
 ```
 api/contact.js          Serverless endpoint → forwards leads to n8n
+api/_email.js           HTML template for the notification email
 public/images/          21 web-sized assets (3.9 MB total)
   michael/              9 portraits of Michael
 scripts/                Image optimiser
@@ -62,6 +64,16 @@ optional reCAPTCHA v3, and per-IP rate limiting.
 
 Copy `.env.example` to `.env.local` and fill in the n8n values. The form
 returns a clear error until `N8N_LEAD_WEBHOOK_URL` is set.
+
+### The notification email
+
+`api/_email.js` renders the email Michael receives, and the endpoint posts it
+to n8n as three extra fields — `emailSubject`, `emailHtml`, `emailText`. The
+n8n Send Email node just uses those, so the template lives here with the rest
+of the site's design rather than inside the workflow.
+
+Preview it with `npm run email:preview`. All submitted values are HTML-escaped,
+and the subject is stripped of control characters before it becomes a header.
 
 ## Deploying
 

@@ -14,6 +14,8 @@
  *                          the honeypot and timing checks still apply.
  */
 
+import { renderLeadEmail } from './_email.js';
+
 export const config = { runtime: 'nodejs' };
 
 const HONEYPOT = 'website';
@@ -131,19 +133,31 @@ export default async function handler(req, res) {
       });
     }
 
+    const submittedAt = new Date().toISOString();
+
+    const lead = {
+      name,
+      company: get('company'),
+      email,
+      phone: get('phone'),
+      inquiryType: get('inquiryType'),
+      message,
+      page: get('page') || '/',
+      submittedAt,
+    };
+
+    /* Render the notification email here rather than in n8n, so the template
+       lives with the rest of the site and stays in step with its design. The
+       n8n Send Email node only has to use these three fields. */
+    const mail = renderLeadEmail(lead);
+
     const payload = new FormData();
-    [
-      'name',
-      'company',
-      'email',
-      'phone',
-      'inquiryType',
-      'message',
-      'page',
-      'source',
-    ].forEach((k) => payload.append(k, get(k)));
+    Object.entries(lead).forEach(([k, v]) => payload.append(k, v ?? ''));
+    payload.append('source', get('source') || 'michaeltardi.com');
     payload.append('formType', 'contact');
-    payload.append('submittedAt', new Date().toISOString());
+    payload.append('emailSubject', mail.subject);
+    payload.append('emailHtml', mail.html);
+    payload.append('emailText', mail.text);
 
     const headers = {};
     if (process.env.N8N_USERNAME && process.env.N8N_PASSWORD) {
