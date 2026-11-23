@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FiMail, FiPhone, FiLinkedin, FiArrowRight, FiCheck } from 'react-icons/fi';
+import { track } from '@vercel/analytics';
 import Reveal from '../components/Reveal';
 import { submitContactForm, primeRecaptcha } from '../api/contact';
 import { site, inquiryTypes, partnerTracks, cta } from '../data/site';
@@ -64,6 +65,7 @@ export default function Contact() {
         formStartedAt: startedAt.current,
         honeypot: honeypot.current,
       });
+      track('lead_submitted', { form: 'contact', inquiry: fields.inquiryType });
       setStatus('sent');
       setFields(EMPTY);
     } catch (err) {
