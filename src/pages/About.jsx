@@ -20,7 +20,7 @@ function Story() {
       <div className="shell story__grid">
         <Reveal className="story__media">
           <div className="story__frame" aria-hidden="true" />
-          <img src={about.portrait} alt={about.portraitAlt} />
+          <img src={about.portrait} alt={about.portraitAlt} loading="lazy" decoding="async" />
         </Reveal>
 
         <div>
