@@ -84,7 +84,13 @@ export default async function handler(req, res) {
       });
     }
 
-    const form = await req.formData();
+    /* Node's request has no formData(), so read the multipart body through a web Request. */
+    const form = await new Request('http://localhost/', {
+      method: 'POST',
+      headers: { 'content-type': req.headers['content-type'] || '' },
+      body: req,
+      duplex: 'half',
+    }).formData();
     const get = (k) => (form.get(k) ?? '').toString().trim();
 
     /* Honeypot — answer with a success so bots do not learn they were caught. */
