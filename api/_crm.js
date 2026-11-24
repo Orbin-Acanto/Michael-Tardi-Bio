@@ -4,7 +4,7 @@ const ENDPOINT = 'https://api.crm.fidihospitality.com/api/public/v1/inquiries/';
 export const n8nLeadsEnabled = () => process.env.N8N_LEADS_ENABLED !== 'false';
 
 /* Copies a lead to FiDi CRM. Never throws, resolves true when the CRM stored it. */
-export async function sendToCrm(lead, ip) {
+export async function sendToCrm(lead, ip, page) {
   const key = process.env.FIDI_CRM_KEY;
   if (!key) {
     console.error('FiDi CRM intake skipped: FIDI_CRM_KEY is not set');
@@ -17,6 +17,8 @@ export async function sendToCrm(lead, ip) {
         'Content-Type': 'application/json',
         'X-FiDi-Key': key,
         'X-Forwarded-For': ip === 'unknown' ? '' : ip,
+        /* The CRM counts URLs in fields as spam, so the page goes in the Referer header. */
+        Referer: page,
       },
       body: JSON.stringify(lead),
       signal: AbortSignal.timeout(8000),

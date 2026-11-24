@@ -168,7 +168,7 @@ export default async function handler(req, res) {
       headers.Authorization = `Basic ${creds}`;
     }
 
-    const crm = sendToCrm({ ...lead, page_url: req.headers.referer || '' }, ip);
+    const crm = sendToCrm(lead, ip, req.headers.referer || '');
 
     /* n8n also runs as the fallback when it is switched off and the CRM failed. */
     if (n8nLeadsEnabled() || !(await crm)) {
