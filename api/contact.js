@@ -15,6 +15,7 @@
  */
 
 import { renderLeadEmail } from './_email.js';
+import { n8nLeadsEnabled, sendToCrm } from './_crm.js';
 
 export const config = { runtime: 'nodejs' };
 
@@ -167,12 +168,18 @@ export default async function handler(req, res) {
       headers.Authorization = `Basic ${creds}`;
     }
 
-    const n8n = await fetch(webhook, { method: 'POST', headers, body: payload });
+    const crm = sendToCrm({ ...lead, page_url: req.headers.referer || '' }, ip);
 
-    if (!n8n.ok) {
-      console.error('n8n webhook error:', n8n.status, await n8n.text());
-      throw new Error('Lead webhook rejected the submission.');
+    /* n8n also runs as the fallback when it is switched off and the CRM failed. */
+    if (n8nLeadsEnabled() || !(await crm)) {
+      const n8n = await fetch(webhook, { method: 'POST', headers, body: payload });
+
+      if (!n8n.ok) {
+        console.error('n8n webhook error:', n8n.status, await n8n.text());
+        if (!(await crm)) throw new Error('Lead webhook rejected the submission.');
+      }
     }
+    await crm;
 
     return json(res, 200, { success: true, message: 'Thank you — your message is on its way.' });
   } catch (err) {
